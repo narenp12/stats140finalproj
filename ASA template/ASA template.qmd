@@ -1,5 +1,5 @@
 ---
-title: "Research on Research on Research: An analysis of statistical and computational research papers"
+title: "Research on Research on Research: Analyzing historical trends in statistical and computational research"
 format:
   jasa-pdf:
     keep-tex: true  
@@ -45,7 +45,9 @@ Margins in this document are roughly 0.75 inches all around, letter size paper.
 ## Research Questions {#sec-questions}
 - What statistical and computational fields have seen the largest increase in publications?
 - How have the most published statistical and computational fields changed over time?
-- What statistical and computational fields 
+- What statistical and computational fields are projected to grow the most in the coming years?
+
+## Literature Review {#lit-review}
 
 ## Methods {#sec-meth}
 

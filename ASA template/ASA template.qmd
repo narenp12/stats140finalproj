@@ -1,5 +1,5 @@
 ---
-title: "Research on Research on Research: Analyzing historical trends in statistical and computational research"
+title: "Research Proposal for \"Research on Research on Research: Analyzing historical trends in statistical and computational research\""
 format:
   jasa-pdf:
     keep-tex: true  
@@ -13,7 +13,7 @@ author:
       - name: University of California, Los Angeles
         department: Department of Statistics and Data Science
 abstract: >
-  Put abstract here later
+  This paper aims to analyze the changes in research paper output for different statistical and computational fields over the time period from 1993 to 2024. The research papers used for this analysis are sourced from the pre-print journal arXiv.
 bibliography: bibliography.bib  
 editor: 
   markdown: 
@@ -22,25 +22,7 @@ editor:
 
 ## Introduction {#sec-intro}
 
-Body of paper.
-Margins in this document are roughly 0.75 inches all around, letter size paper.
-
-![Consistency comparison in fitting surrogate model in the tidal power example.](fig1.pdf){#fig-first width="3in"}
-
-| one  | two  | three | four | five |
-|------|------|-------|------|------|
-| 1.23 | 3.45 | 5.00  | 1.21 | 3.41 |
-| 1.23 | 3.45 | 5.00  | 1.21 | 3.42 |
-| 1.23 | 3.45 | 5.00  | 1.21 | 3.43 |
-
-: D-optimality values for design X under five different scenarios. {#tbl-one}
-
--   Note that figures and tables (such as @fig-first and @tbl-one) should appear in the paper, not at the end or in separate files.
--   In document front matter, you may set the key `blinded` under a `journal` key to hide the authors and acknowledgements, producing the required anonymized version.
--   Remember that in the anonymized version, you should not identify authors indirectly in the text. That is, don't say "In Smith et. al. (2009) we showed that ...". Instead, say "Smith et. al. (2009) showed that ...".
--   These points are only intended to remind you of some requirements. Please refer to the instructions for authors at <http://amstat.tandfonline.com/action/authorSubmission?journalCode=uasa20&page=instructions#.VFkk7fnF_0c>
--   For more about ASA style, please see <https://files.taylorandfrancis.com/asa-style-guide.pdf>.
--   If you have supplementary material (e.g., software, data, technical proofs), identify them in the section below. In early stages of the submission process, you may be unsure what to include as supplementary material. Don't worry---this is something that can be worked out at later stages.
+In recent years, with the fields of artifical intelligence and machine learning becoming important parts of the public lexicon and increasingly becoming involved in our day to day lives, we've seen firsthand large changes in statistical and computational research. With statistical methods increasingly becoming intertwined with computational principles, such as its integration with aspects of computer science, the future of statistics and computation appear to be one and the same. How does this current research landscape compare with that of the landscape a mere 30 years ago? This paper aims to analyze historical trends in statistical and computational research, as tracked by papers submitted to the online pre-print journal arXiv, in order to visualize the dramatic changes we've seen over the years and find any subfields growing in the present that could yet transform the landscape of the future.
 
 ## Research Questions {#sec-questions}
 - What statistical and computational fields have seen the largest increase in publications?
@@ -49,166 +31,14 @@ Margins in this document are roughly 0.75 inches all around, letter size paper.
 
 ## Literature Review {#lit-review}
 
+
+
 ## Methods {#sec-meth}
 
 Don't take any of these section titles seriously.
 They're just for illustration.
 
-## Verifications {#sec-verify}
 
-This section will be just long enough to illustrate what a full page of text looks like, for margins and spacing.
 
-::: {add-textheight=".5in"}
-@gelm:veht:2021 offer some guidance about key ideas about statistical ideas.
-On an unrelated note, spreadsheets are important to use correctly [@brom:woo:2018].
-Log-linear models are an attractive way to model categorical data [@bish:fien:1975].
 
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-**With this spacing we have 25 lines per page.** The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
 
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-:::
-
-::: {add-textheight=".2in"}
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-The quick brown fox jumped over the lazy dog.
-:::
-
-## Conclusion {#sec-conc}
-
-## Disclosure statement
-
-The authors have the following conflicts of interest to declare (or replace with a statement that no conflicts of interest exist).
-
-## Data Availability Statement
-
-Deidentified data have been made available at the following URL: XX.
-
-## Supplementary Material {.supplementary}
-
-Title:
-
-:   Brief description.
-    (file type)
-
-R-package for MYNEW routine:
-
-:   R-package MYNEW containing code to perform the diagnostic methods described in the article.
-    The package also contains all datasets used as examples in the article.
-    (GNU zipped tar file)
-
-HIV data set:
-
-:   Data set used in the illustration of MYNEW method in @sec-verify (.txt file).
-
-## BibTeX
-
-We encourage you to use BibTeX.
-If you have, please feel free to use the package natbib with any bibliography style you're comfortable with.
-The .bst file agsm has been included here for your convenience.

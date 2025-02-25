@@ -13,7 +13,7 @@ author:
       - name: University of California, Los Angeles
         department: Department of Statistics and Data Science
 abstract: >
-  This paper aims to analyze the changes in research paper output for different statistical and computational fields over the time period from 1993 to 2024. The research papers used for this analysis are sourced from the pre-print journal arXiv.
+  This paper aims to analyze the changes in research paper output for different statistical and computational fields over the time period from 1993 to 2024. The research papers used for this analysis are sourced from a dataset of papers from the pre-print journal arXiv.
 bibliography: bibliography.bib  
 editor: 
   markdown: 
@@ -22,7 +22,7 @@ editor:
 
 ## Introduction {#sec-intro}
 
-In recent years, with the fields of artifical intelligence and machine learning becoming important parts of the public lexicon and increasingly becoming involved in our day to day lives, we've seen firsthand large changes in statistical and computational research. With statistical methods increasingly becoming intertwined with computational principles, such as its integration with aspects of computer science, the future of statistics and computation appear to be one and the same. How does this current research landscape compare with that of the landscape a mere 30 years ago? This paper aims to analyze historical trends in statistical and computational research, as tracked by papers submitted to the online pre-print journal arXiv, in order to visualize the dramatic changes we've seen over the years and find any subfields growing in the present that could yet transform the landscape of the future.
+In recent years, with the fields of artifical intelligence and machine learning becoming important parts of the public lexicon and increasingly becoming involved in our day to day lives, we've seen firsthand large changes in statistical and computational research. With statistical methods increasingly becoming intertwined with computational principles, such as its integration with aspects of computer science, the future of statistics and computation appear to be one and the same. How does this current research landscape compare with that of the landscape a mere 30 years ago? This paper aims to analyze historical trends in statistical and computational research, as tracked by papers submitted to the online pre-print journal arXiv, in order to visualize the dramatic changes we've seen over the years and find any subfields growing in the present that could yet transform the landscape of the future. This analysis of historical trends will be conducted using the specific dataset available on Kaggle,@arXiv:kaggle:data.
 
 ## Research Questions {#sec-questions}
 - What statistical and computational fields have seen the largest increase in publications?
@@ -30,6 +30,8 @@ In recent years, with the fields of artifical intelligence and machine learning 
 - What statistical and computational fields are projected to grow the most in the coming years?
 
 ## Literature Review {#lit-review}
+
+
 
 
 

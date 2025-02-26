@@ -39,7 +39,25 @@ Looking at themes in statistical and computational research is nothing new. For 
 
 ### Data Partioning
 
-While acknowledging the 
+While acknowledging the connected nature of statistical and computational research in the present and future, this paper will partition the data into two halves. One half will be comprised of research deemed statistical in nature, and the other half will be comprised of research deemed as computational. This split in the data is done to narrow down the problem and allow for ease of analysis and interpretation of the results. Along with this, the data will also be subset in terms of time. In order to keep each yearly subset of papers as a representative sample of all research output for that year, the time range will be limited to exclude publication in 2025. This is done so that the resulting analysis will focus on comparison with full yearly samples of research data, rather than extrapolating from the research output in the year 2025 as of now.
+
+### Quantifying growth
+
+For the purposes of this paper, growth will be represented by two metrics. Firstly, the simple percentage change from year to year for each subfield will be considered. In addition to this, the proportion of overall research represented by each subfield over time will also be used to evaluate growth in research interest and output.
+
+### Trend analysis and short-term prediction
+
+Lastly, the metrics of growth as well as the original data and additional engineered features will be used to create a prediction model for the short term growth of research subfields. In correspondence with the data partitioning, separate models will be constructed for the statistical research and the computational research. The objective here is to produce a time series model for short term projections of growth in research interests and outputs.
+
+### Data Description
+
+The arXiv paper dataset consists of 136,238 observations and 10 columns. The 10 columns present in the data are: id, title, category, category code, published date, updated date, authors, first author, summary, and summary word count. This data is scraped directly from arXiv, aiming to provide a representative sample of research published on the platform.
+
+### Limitations
+
+Focusing on primarily numerical data as a sign of growth indicates a relatively simple way of quantifying growth. In reality, growth is a more complex idea and could benefit from the use of paper content for text data processing to supplement the numerical figures of growth. This is a potential avenue of further exploration and work.
+
+## Potential Impact {#impact}
 
 
 

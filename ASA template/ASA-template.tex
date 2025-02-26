@@ -262,6 +262,9 @@ interpretation of the results. Along with this, the data will also be
 subset in terms of time. In order to keep each yearly subset of papers
 as a representative sample of all research output for that year, the
 time range will be limited to exclude publication in 2025. This is done
+so that the resulting analysis will focus on comparison with full yearly
+samples of research data, rather than extrapolating from the research
+output in the year 2025 as of now.
 
 \subsection{Quantifying growth}\label{quantifying-growth}
 
@@ -282,7 +285,26 @@ statistical research and the computational research. The objective here
 is to produce a time series model for short term projections of growth
 in research interests and outputs.
 
+\subsection{Data Description}\label{data-description}
 
+The arXiv paper dataset consists of 136,238 observations and 10 columns.
+The 10 columns present in the data are: id, title, category, category
+code, published date, updated date, authors, first author, summary, and
+summary word count. This data is scraped directly from arXiv, aiming to
+provide a representative sample of research published on the platform.
+
+\subsection{Limitations}\label{limitations}
+
+Focusing on primarily numerical data as a sign of growth indicates a
+relatively simple way of quantifying growth. In reality, growth is a
+more complex idea and could benefit from the use of paper content for
+text data processing to supplement the numerical figures of growth. This
+is a potential avenue of further exploration and work.
+
+\section{Potential Impact}\label{impact}
+
+
+\renewcommand\refname{References}
   \bibliography{bibliography.bib}
 
 

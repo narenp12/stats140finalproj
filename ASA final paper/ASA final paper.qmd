@@ -27,7 +27,7 @@ In recent years, with the fields of artifical intelligence and machine learning 
 
 ## Literature Review {#lit-review}
 
-Looking at themes in statistical and computational research is nothing new. For instance, @gelm:veht:2021 analyzed the dominant statistical ideas of the past 50 years, suggesting inferential methods, computational algorithms, and data nalysis have been the most impactful in the shifting of the research landscape. Smaller subsets of time have also been analyzed, with @jun:yoo:choi:2018 using Google Trends to track the growth of different subfields of research (with an emphasis on big data and application). This paper aims to look at a similar problem with a different lens, using publication outputs themselves as a way of analyzing changes in research focus and interest. In doing this, the paper aims to also obtain an indication of the subfields with increasing research interest in the short term that may lend itself to future publications. Evaluating the research trends of the future has often involved modeling itself, such as the hype cycle model @dedehayir:2016. This model aims to track the life cycle of technological innovations. In a similar vein, this paper aims to use current and recent paper production output to indicate trends of the near future. As the methodology involves using the research paper pre-prints themselves, it may provide a clearer picture of specific publication interests and trends rather than topics and concepts in general.
+Looking at themes in statistical and computational research is nothing new. For instance, @gelm:veht:2021 analyzed the dominant statistical ideas of the past 50 years, suggesting inferential methods, computational algorithms, and data analysis have been the most impactful in the shifting of the research landscape. Smaller subsets of time have also been analyzed, with @jun:yoo:choi:2018 using Google Trends to track the growth of different subfields of research (with an emphasis on big data and application). This paper aims to look at a similar problem with a different lens, using publication outputs themselves as a way of analyzing changes in research focus and interest. In doing this, the paper aims to also obtain an indication of the subfields with increasing research interest in the short term that may lend itself to future publications. Evaluating the research trends of the future has often involved modeling itself, such as the hype cycle model @dedehayir:2016. This model aims to track the life cycle of technological innovations. In a similar vein, this paper aims to use current and recent paper production output to indicate trends of the near future. As the methodology involves using the research paper pre-prints themselves, it may provide a clearer picture of specific publication interests and trends rather than topics and concepts in general.
 
 ## Research Questions {#sec-questions}
 
@@ -41,7 +41,7 @@ Looking at themes in statistical and computational research is nothing new. For 
 
 The arXiv paper dataset consists of 136,238 observations and 10 columns. The 10 columns present in the data are: id, title, category, category code, published date, updated date, authors, first author, summary, and summary word count. Only the summary word count is a numeric variable. This data is scraped directly from arXiv, aiming to provide a representative sample of research published on the platform.
 
-### Data Pre-Processing
+### Data Pre-processing
 
 The original dataset will have its variables converted to categorical variables for grouping and analytical purposes, with the exception of the summary word count due to its numeric nature. Following this, two selected lists of subtopics will be created for the purpose of data partitioning and separate analysis.
 
@@ -71,7 +71,7 @@ Focusing on primarily numerical data as a sign of growth indicates a relatively 
 
 Before examining each partition of the original data for the purpose of directly answering the research questions, it is important to understand the context behind and the general appearance of the original dataset itself. For this reason, many plots were created to visualize parts of the data during the data pre-processing and data partitioning stages.
 
-![Artifical Intelligence Paper Output Plot](images/ai_plot-2.png)
+![Artifical Intelligence Paper Output Plot](images/ai_plot-3.png)
 
 This initial plot of the research paper outputs for the category of Artifical Intelligence indicates several patterns we will continue to see in this data. Though Artifical Intelligence is often seen as a recent breakthrough that has only gotten larger year by year, we can see here that the yearly trend is far from consistent.
 
@@ -79,43 +79,41 @@ From here, we then further explore each of the partitioned datasets rather than 
 
 #### Statistical Data
 
-The statistical data subset is comprised of the topics Data Analysis, Statistics and Probability, Machine Learning (Statistics), Methodology (Statistics), Computation (Statistics), Other Statistics, Applications (Statistics), and Statistics Theory. In order to explore the relative frequencies of paper output by these topics, we present an initial plot of this data.
+The statistical data subset is comprised of the following topics: Data Analysis, Statistics and Probability, Machine Learning (Statistics), Methodology (Statistics), Computation (Statistics), Other Statistics, Applications (Statistics), and Statistics Theory. In order to explore the relative frequencies of paper output by these topics, we present an initial plot of this data.
 
 ![Statistical Data Paper Output Plot](images/stat_edaplot-2.png)
 
 From this initial plot it is immediately apparent that Machine Learning (Statistics) and Methodology appear to be the most popular subdomains, with other subdomains varying and not having a clear edge over each other. This provides us with a general impression of the data prior to delving into the specific yearly figures and relative frequencies.
 
-## Verifications {#sec-verify}
+#### Computational Data
 
-This section will be just long enough to illustrate what a full page of text looks like, for margins and spacing.
+The computational data subset is made up from the following topics: Artifical Intelligence; Computation and Language (Legacy category); Computation and Language (Natural Language Processing); Computer Vision and Pattern Recognition; Distributed, Parallel, and Cluster Computing; Neural and Evolutionary Computing; Computer Science and Game Theory; and Computational Physics. Once more, we create an initial plot to explore the relative frequencies of paper output by subfield.
 
-::: {add-textheight=".5in"}
-@gelm:veht:2021 offer some guidance about key ideas about statistical ideas. On an unrelated note, spreadsheets are important to use correctly [@brom:woo:2018]. Log-linear models are an attractive way to model categorical data [@bish:fien:1975].
+![Computational Data Paper Output Plot](images/comp_edaplot.png)
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. **With this spacing we have 25 lines per page.** The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+Once more, we can see a few subtopics are the most popular visually. In this case, the Computer Vision and Pattern Recognition, Computation and Language (Natural Language Processing), and the Artificial Intelligence subtopics have the highest proportions of paper outputs, especially in more recent years. This is not unexpected, considering the rise of LLMs and the popularity of Artifical Intelligence in modern society.
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+### Statistical Data Analysis
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+#### Fields with the largest publication increase
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
-:::
+In order to quantify the largest publication increase for the statistical fields, two methods were employed. One method involved looking at the average growth (in percentages) year over year for each subtopic. The other involved comparing the raw paper output from the first year of comparison for each subtopic to its more recent paper output total. The results of both forms of analysis are shown in the following plots.
 
-::: {add-textheight=".2in"}
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+![Statistical Data Average Yearly Growth](images/avg_pct_stats.png)
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+![Statistical Data Paper Output Ratio Plot](images/ratio_stats.png)
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+Based on the two figures above, we can see some patterns as many of the subfields retain the same order in both the paper output ratio and the average yearly percentage growth. The apparent exception here is Statistics Theory, which despite having an extremely high percentage growth year by year, is among the lowest for growth in terms of raw totals. The reason for this, after further investigation, is due to the volatile nature of Statistics Theory publications on a yearly basis, as many years would have little published but be followed by a year with a larger output. This inconsistency produced a very large average percentage growth yet an overall small increase in raw output. From considering these graphs, we can see that the fields with the most growth in this time period are Machine Learning, Methodology, and Applications.
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+#### Changes in the top fields over the years
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+In order to analyze publication output on a yearly basis, the top 4 subfields in paper output for a given year were calculated and plotted. The visualization produced from this is below.
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
+![Statistical Data Top 4 Subfields Yearly](images/top4_stats.png)
 
-The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.
-:::
+From this analysis, we can see that the most published subfields remained consistent over the years. Machine Learning, Methodology, Applications, and Computation often comprised the top 4 with Statistics Theory also in the mix. Overall, the top 3 fields remained Machine Learning, Methodology, and Application / Computation with some variance between the presence of Application and Computation in any individual year.
+
+#### Projected growth of statistical fields
 
 ## Conclusion {#sec-conc}
 

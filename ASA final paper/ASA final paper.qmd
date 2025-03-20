@@ -115,6 +115,14 @@ From this analysis, we can see that the most published subfields remained consis
 
 #### Projected growth of statistical fields
 
+In order to tackle the short term prediction of paper outputs, we want to look at recent trends in publications. An initial look at this is through limiting the time frame. Here we restrict the data from 2015-2024 and look at the average percentage growth in publication output.
+
+![Statistical Data Recent Publication Growth](images/stats_recent.png)
+
+From this, we can see that publication growth is actually highest in Other Statistics, Methodology, and Applications. Somewhat surprisingly, the publication average growth of the Machine Learning subfield is relatively low. In order to fully capture the historical trends and use them for future predictions, we want to utilize a time series approach.
+
+#### Creating the time series model
+
 ## Conclusion {#sec-conc}
 
 ## Disclosure statement

@@ -403,7 +403,7 @@ this case, the Computer Vision and Pattern Recognition, Computation and
 Language (Natural Language Processing), and the Artificial Intelligence
 subtopics have the highest proportions of paper outputs, especially in
 more recent years. This is not unexpected, considering the rise of LLMs
-and the popularity of Artifical Intelligence in modern society.
+and the popularity of Artifical Intelligence in modern societ.
 
 \subsection{Statistical Data Analysis}\label{statistical-data-analysis}
 
@@ -501,8 +501,83 @@ the publication average growth of the Machine Learning subfield is
 relatively low. In order to fully capture the historical trends and use
 them for future predictions, we want to utilize a time series approach.
 
-\paragraph{Creating the time series
+\subsubsection{Creating the time series
 model}\label{creating-the-time-series-model}
+
+In order to create a suitable model for the future time series
+prediction of paper outputs by subfield, we first need to understand the
+relationships between subfields. We first look at the correlation
+between each subfield to understand if the patterns in paper output are
+dependent on other subfields.
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{images/stats_corr.png}}
+
+}
+
+\caption{Statistical Data Correlation Heatmap}
+
+\end{figure}%
+
+From this heatmap, we can conclude that each subfield is largely
+independent of other subfields, with the correlation values across
+subfields being fairly low. As a result, we choose a model that predicts
+future values based on the previous values of each individual subfield.
+Essentially, we treat each subfield as an individual time series.
+
+The model itself is constructed using the skforecast package from
+\citet{skforecast}. We use a LightGBM regressor to create a
+ForecasterAutoregMultiSeries object from the aforementioned skforecast
+library. From previous fitting of a Vector Autoregression Model, we
+specify 9 lag periods for the object.
+
+We create a training set from the statistical data of the first 70\% of
+observations, with the remaining 30\% serving as the test set. After
+training and predicting on our test set, we see a mean absolute error of
+about 0.5913. Finally, we use all the original data as the training data
+for a model object identical to that of our original and supply the
+future timeframe of the first 6 months of 2025. From those predictions,
+the following trends are seen.
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{images/stat_preds.png}}
+
+}
+
+\caption{Statistical Data Predicted Differences}
+
+\end{figure}%
+
+As seen here, the time series model predicts a decline in paper output
+for each subfield over the first 6 months of 2025, with the exception
+being in Machine Learning. Further inspection into the changes of the
+percentages over time show an inconsistent rate of change, with many ups
+and downs.
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{images/app_preds.png}}
+
+}
+
+\caption{Applications (Statistics) Predicted Differences}
+
+\end{figure}%
+
+This figure shows a trend commonly seen in the predictions of each of
+the individual subfields. Considering the nature of the statistical data
+from our observations, it seems apt that the predictions themselves also
+reflect the inconsistency seen in paper output. Ultimately, from these
+predictions, in the short term Machine Learning is expected to see the
+most paper output.
+
+\subsection{Computational Data
+Analysis}\label{computational-data-analysis}
+
+\subsubsection{Fields with the largest publication
+increase}\label{fields-with-the-largest-publication-increase-1}
 
 \section{Conclusion}\label{sec-conc}
 
@@ -531,9 +606,6 @@ Brief description. (file type)
 R-package MYNEW containing code to perform the diagnostic methods
 described in the article. The package also contains all datasets used as
 examples in the article. (GNU zipped tar file)
-\item[HIV data set:]
-Data set used in the illustration of MYNEW method in
-\textbf{?@sec-verify} (.txt file).
 \end{description}
 
 

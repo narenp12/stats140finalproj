@@ -15,7 +15,7 @@ author:
       - name: University of California, Los Angeles
         department: Department of Statistics and Data Science
 abstract: |
-  This paper aims to analyze the changes in research paper output for different statistical and computational fields over the time period from the 1990s to modern day (2025). The paper also projects short term growth for recently emerging fields in an effort to predict the fields that will receive further resource funding and attention in the near future. The research papers used for this analysis are sourced from a dataset of papers from the pre-print journal arXiv.
+  This paper aims to analyze the changes in research paper output for different statistical and computational fields over the time period from the 1990s to modern day (2025). The paper also projects short term growth for recently emerging fields in an effort to predict the fields that will receive further resource funding and attention in the near future. The research papers used for this analysis are sourced from a dataset of papers sourced from the pre-print journal arXiv.
 keywords:
   - retrospective analysis, arXiv, publication analysis, forecasting, time series
 bibliography: bibliography.bib  
@@ -23,7 +23,7 @@ bibliography: bibliography.bib
 
 ## Introduction {#sec-intro}
 
-In recent years, with the fields of artifical intelligence and machine learning becoming important parts of the public lexicon and increasingly becoming involved in our day to day lives, we've seen firsthand large changes in statistical and computational research. With statistical methods increasingly becoming intertwined with computational principles, such as its integration with aspects of computer science, the future of statistics and computation appear to be one and the same. How does this current research landscape compare with that of the landscape a mere 30 years ago? This paper aims to analyze historical trends in statistical and computational research, as tracked by papers submitted to the online pre-print journal arXiv, in order to visualize the dramatic changes we've seen over the years and find any subfields growing in the present that could yet transform the landscape of the future. This analysis of historical trends will be conducted using a specific dataset available on Kaggle @arXiv:kaggle:data.
+In recent years, with the fields of artificial intelligence and machine learning becoming important parts of the public lexicon and increasingly becoming involved in our day to day lives, we have witnessed significant changes in statistical and computational research. With statistical methods increasingly becoming intertwined with computational principles, such as its integration with aspects of computer science, the future of statistics and computation appear to be one and the same. How does this current research landscape compare with that of the landscape a mere 30 years ago? This paper aims to analyze historical trends in statistical and computational research, as tracked by papers submitted to the online pre-print journal arXiv, in order to visualize the dramatic changes we've seen over the years and find any subfields growing in the present that could yet transform the landscape of the future. This analysis of historical trends will be conducted using a specific dataset available on Kaggle @arXiv:kaggle:data.
 
 ## Literature Review {#lit-review}
 
@@ -39,7 +39,7 @@ Looking at themes in statistical and computational research is nothing new. For 
 
 ### Data Description
 
-The arXiv paper dataset consists of 136,238 observations and 10 columns. The 10 columns present in the data are: id, title, category, category code, published date, updated date, authors, first author, summary, and summary word count. Only the summary word count is a numeric variable. This data is scraped directly from arXiv, aiming to provide a representative sample of research published on the platform.
+The arXiv paper dataset consists of 136,238 observations and 10 columns. The ten columns present in the data are: id, title, category, category code, published date, updated date, authors, first author, summary, and summary word count. Only the summary word count is a numeric variable. This data is scraped directly from arXiv, aiming to provide a representative sample of research published on the platform.
 
 ### Data Pre-processing
 
@@ -61,7 +61,7 @@ Lastly, the metrics of growth as well as the partitioned data will be used to cr
 
 ### Limitations
 
-Focusing on primarily numerical data as a sign of growth indicates a relatively simple way of quantifying growth. In reality, growth is a more complex idea and could benefit from the use of paper content for text data processing to supplement the numerical figures of growth. This is a potential avenue of further exploration and work.
+Focusing on primarily numerical data as a sign of growth indicates a relatively simple way of quantifying growth. In reality, growth is a more complex idea and could benefit from the use of paper content through text data processing to supplement the numerical growth figures. This is a potential avenue of further exploration and work.
 
 ## Results {#sec-results}
 
@@ -71,9 +71,9 @@ Focusing on primarily numerical data as a sign of growth indicates a relatively 
 
 Before examining each partition of the original data for the purpose of directly answering the research questions, it is important to understand the context behind and the general appearance of the original dataset itself. For this reason, many plots were created to visualize parts of the data during the data pre-processing and data partitioning stages.
 
-![Artifical Intelligence Paper Output Plot](images/ai_plot-3.png)
+![Artificial Intelligence Paper Output Plot](images/ai_plot-3.png)
 
-This initial plot of the research paper outputs for the category of Artifical Intelligence indicates several patterns we will continue to see in this data. Though Artifical Intelligence is often seen as a recent breakthrough that has only gotten larger year by year, we can see here that the yearly trend is far from consistent.
+This initial plot of the research paper outputs for the category of Artificial Intelligence indicates several patterns we will continue to see in this data. Though Artificial Intelligence is often seen as a recent breakthrough that has only gotten larger year by year, we can see here that the yearly trend is far from consistent.
 
 From here, we then further explore each of the partitioned datasets rather than focusing on the original alone, as these will be the foundation of our future analysis and modeling.
 
@@ -87,11 +87,11 @@ From this initial plot it is immediately apparent that Machine Learning (Statist
 
 #### Computational Data
 
-The computational data subset is made up from the following topics: Artifical Intelligence; Computation and Language (Legacy category); Computation and Language (Natural Language Processing); Computer Vision and Pattern Recognition; Distributed, Parallel, and Cluster Computing; Neural and Evolutionary Computing; Computer Science and Game Theory; and Computational Physics. Once more, we create an initial plot to explore the relative frequencies of paper output by subfield.
+The computational data subset is made up from the following topics: Artificial Intelligence; Computation and Language (Legacy category); Computation and Language (Natural Language Processing); Computer Vision and Pattern Recognition; Distributed, Parallel, and Cluster Computing; Neural and Evolutionary Computing; Computer Science and Game Theory; and Computational Physics. Once more, we create an initial plot to explore the relative frequencies of paper output by subfield.
 
 ![Computational Data Paper Output Plot](images/comp_edaplot.png)
 
-Once more, we can see a few subtopics are the most popular visually. In this case, the Computer Vision and Pattern Recognition, Computation and Language (Natural Language Processing), and the Artificial Intelligence subtopics have the highest proportions of paper outputs, especially in more recent years. This is not unexpected, considering the rise of LLMs and the popularity of Artifical Intelligence in modern society.
+Once more, we can see a few subtopics are the most popular visually. In this case, the Computer Vision and Pattern Recognition, Computation and Language (Natural Language Processing), and the Artificial Intelligence subtopics have the highest proportions of paper outputs, especially in more recent years. This is not unexpected, considering the rise of LLMs and the popularity of Artificial Intelligence in modern society.
 
 ### Statistical Data Analysis
 
@@ -113,7 +113,7 @@ From this analysis, we can see that the most published subfields remained consis
 
 #### Projected growth of statistical fields
 
-In order to tackle the short term prediction of paper outputs, we want to look at recent trends in publications. An initial look at this is through limiting the time frame. Here we restrict the data from 2015-2024 and look at the average percentage growth in publication output.
+In order to tackle the short term prediction of paper outputs, we will examine recent trends in publications. An initial look at this is through limiting the time frame. Here we restrict the data from 2015-2024 and look at the average percentage growth in publication output.
 
 ![Statistical Data Recent Publication Growth](images/stats_recent.png)
 
@@ -145,13 +145,13 @@ Once more, we use the same two methods to quantify this. We look at average grow
 
 ![Computational Data Average Growth and Ratio Plots](images/ratio_comp-imageonline.co-merged.png)
 
-Similar to Statistics Theory in our statistical data yearly growth plot, Computational Physics has the highest average growth but a small ratio, indicating that it is the most volatile subfield with publication outputs varying between relatively small and relatively large. From these plots, we can see that Artifical Intelligence, Computer Vision, and Neural and Evolutionary Computing seem to be the largest subfields in terms of growth.
+Similar to Statistics Theory in our statistical data yearly growth plot, Computational Physics has the highest average growth but a small ratio, indicating that it is the most volatile subfield with publication outputs varying between relatively small and relatively large. These plots indicate that Artificial Intelligence, Computer Vision, and Neural and Evolutionary Computing are the largest subfields.
 
 #### Changes in the top fields over the years
 
 ![Computational Data Top 4 Subfields Yearly](images/top4_comp.png)
 
-From this, we can see that the subfields comprising the majority of computational papers have been Artifical Intelligence, Computation and Language (Natural Language Processing), and Computer Vision and Pattern Recognition. Perhaps surprisingly, the Artifical Intelligence subfield has been one of the larger subfields for much longer than its stay in the public lexicon. Despite it only recently becoming known to the general public, the research output indicates it has been an emerging and popular publication subfield for quite a while.
+From this, we can see that the subfields comprising the majority of computational papers have been Artificial Intelligence, Computation and Language (Natural Language Processing), and Computer Vision and Pattern Recognition. Perhaps surprisingly, the Artificial Intelligence subfield has been one of the larger subfields for much longer than its stay in the public lexicon. Despite it only recently becoming known to the general public, the research output indicates it has been an emerging and popular publication subfield for quite a while.
 
 #### Projected growth of computational fields
 
@@ -167,12 +167,12 @@ We create a training set from the statistical data of the first 70% of observati
 
 ![Computational Data Predicted Differences](images/comp_preds.png)
 
-From our time series model, we see a projected growth in publication output for Artifical Intelligence, Neural and Evolutionary Computing, and a smaller growth for Computer Vision and Pattern Recognition. This model projects more publication growth than the comparable statistical data model, which only projected growth for one subfield. However, it is important to note that the mean absolute error for this model is larger, and as such the model predictions may be less accurate.
+From our time series model, we see a projected growth in publication output for Artificial Intelligence, Neural and Evolutionary Computing, and a smaller growth for Computer Vision and Pattern Recognition. This model projects more publication growth than the comparable statistical data model, which only projected growth for one subfield. However, it is important to note that the mean absolute error for this model is larger, and as such the model predictions may be less accurate.
 
 ## Conclusion {#sec-conc}
 
-From looking at the various statistical and computational subfields from the 1990s to the present day, we can see that the popularity of research and paper output for subfields remains fairly consistent. While the actual outputs, as in the raw paper totals, vary a lot year by year, the top subfields tend to keep their places. For statistical data that was Machine Learning, Methodology, Applications, and Computation. For computational data, that was Computation and Language (Natural Language Processing), Artificial Intelligence, and Computer Vision and Pattern Recognition. With that being said, there are several subfields our models predicted to grow in the near future. The computational time series model projected a growth in the Neural and Evolutionary Computing subfield, a subfield not often in the top subfields in terms of paper output. It also projected continued growth for the field of Artifical Intelligence and to a lesser extent Computer Vision and Pattern Recongition. On the other hand, the statistical time series model projected continued growth for the Machine Learning subfield, while projecting short term decreases in the output of other subfields. It is important to note that the differences in predicted growth between the statistical and computational models may be affected by the source of publications used in this analysis, as arXiv hosts more computational papers than statistical papers. As a result, future analysis may want to incorporate several different sources and/or using oversampling techniques to ensure comparable analysis for each subtopic. These insights aim to provide a framework for future retrospective analysis, and to capture the trends and expectations of research from a specific point in time.
+From looking at the various statistical and computational subfields from the 1990s to the present day, we can see that the popularity of research and paper output for subfields remains fairly consistent. While the actual outputs, as in the raw paper totals, vary a lot year by year, the top subfields tend to keep their places. For statistical data that was Machine Learning, Methodology, Applications, and Computation. For computational data, that was Computation and Language (Natural Language Processing), Artificial Intelligence, and Computer Vision and Pattern Recognition. With that being said, there are several subfields our models predicted to grow in the near future. The computational time series model projected a growth in the Neural and Evolutionary Computing subfield, a subfield not often in the top subfields in terms of paper output. It also projected continued growth for the field of Artificial Intelligence and to a lesser extent Computer Vision and Pattern Recognition. On the other hand, the statistical time series model projected continued growth for the Machine Learning subfield, while projecting short term decreases in the output of other subfields. It is important to note that the differences in predicted growth between the statistical and computational models may be affected by the source of publications used in this analysis, as arXiv hosts more computational papers than statistical papers. As a result, future analysis may want to incorporate several different sources and/or using oversampling techniques to ensure comparable analysis for each subtopic. These insights aim to provide a framework for future retrospective analysis, and to capture the trends and expectations of research from a specific point in time.
 
 ## Source Code and Data {.appendix}
 
-All code used in the production of this analysis as well as the original dataset from arXiV can be found at [this repository](https://github.com/narenp12/stats140finalproj).
+All code used in the production of this analysis, as well as the original dataset from arXiv, can be found at [this repository](https://github.com/narenp12/stats140finalproj).

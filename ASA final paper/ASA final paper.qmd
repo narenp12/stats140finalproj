@@ -71,7 +71,7 @@ Focusing on primarily numerical data as a sign of growth indicates a relatively 
 
 Before examining each partition of the original data for the purpose of directly answering the research questions, it is important to understand the context behind and the general appearance of the original dataset itself. For this reason, many plots were created to visualize parts of the data during the data pre-processing and data partitioning stages.
 
-![Artifical Intelligence Paper Output Plot](images/ai_plot.png)
+![Artifical Intelligence Paper Output Plot](images/ai_plot-2.png)
 
 This initial plot of the research paper outputs for the category of Artifical Intelligence indicates several patterns we will continue to see in this data. Though Artifical Intelligence is often seen as a recent breakthrough that has only gotten larger year by year, we can see here that the yearly trend is far from consistent.
 

@@ -91,7 +91,7 @@ The computational data subset is made up from the following topics: Artifical In
 
 ![Computational Data Paper Output Plot](images/comp_edaplot.png)
 
-Once more, we can see a few subtopics are the most popular visually. In this case, the Computer Vision and Pattern Recognition, Computation and Language (Natural Language Processing), and the Artificial Intelligence subtopics have the highest proportions of paper outputs, especially in more recent years. This is not unexpected, considering the rise of LLMs and the popularity of Artifical Intelligence in modern societ.
+Once more, we can see a few subtopics are the most popular visually. In this case, the Computer Vision and Pattern Recognition, Computation and Language (Natural Language Processing), and the Artificial Intelligence subtopics have the highest proportions of paper outputs, especially in more recent years. This is not unexpected, considering the rise of LLMs and the popularity of Artifical Intelligence in modern society.
 
 ### Statistical Data Analysis
 
@@ -99,11 +99,9 @@ Once more, we can see a few subtopics are the most popular visually. In this cas
 
 In order to quantify the largest publication increase for the statistical fields, two methods were employed. One method involved looking at the average growth (in percentages) year over year for each subtopic. The other involved comparing the raw paper output from the first year of comparison for each subtopic to its more recent paper output total. The results of both forms of analysis are shown in the following plots.
 
-![Statistical Data Average Yearly Growth](images/avg_pct_stats.png)
+![Statistical Data Average Growth and Ratio Plots](images/ratio_stats-imageonline.co-merged(1).png)
 
-![Statistical Data Paper Output Ratio Plot](images/ratio_stats.png)
-
-Based on the two figures above, we can see some patterns as many of the subfields retain the same order in both the paper output ratio and the average yearly percentage growth. The apparent exception here is Statistics Theory, which despite having an extremely high percentage growth year by year, is among the lowest for growth in terms of raw totals. The reason for this, after further investigation, is due to the volatile nature of Statistics Theory publications on a yearly basis, as many years would have little published but be followed by a year with a larger output. This inconsistency produced a very large average percentage growth yet an overall small increase in raw output. From considering these graphs, we can see that the fields with the most growth in this time period are Machine Learning, Methodology, and Applications.
+Based on the two plots above, we can see some patterns as many of the subfields retain the same order in both the paper output ratio and the average yearly percentage growth. The apparent exception here is Statistics Theory, which despite having an extremely high percentage growth year by year, is among the lowest for growth in terms of raw totals. The reason for this, after further investigation, is due to the volatile nature of Statistics Theory publications on a yearly basis, as many years would have little published but be followed by a year with a larger output. This inconsistency produced a very large average percentage growth yet an overall small increase in raw output. From considering these graphs, we can see that the fields with the most growth in this time period are Machine Learning, Methodology, and Applications.
 
 #### Changes in the top fields over the years
 
@@ -131,36 +129,50 @@ From this heatmap, we can conclude that each subfield is largely independent of 
 
 The model itself is constructed using the skforecast package from @skforecast. We use a LightGBM regressor to create a ForecasterAutoregMultiSeries object from the aforementioned skforecast library. From previous fitting of a Vector Autoregression Model, we specify 9 lag periods for the object.
 
-We create a training set from the statistical data of the first 70% of observations, with the remaining 30% serving as the test set. After training and predicting on our test set, we see a mean absolute error of about 0.5913. Finally, we use all the original data as the training data for a model object identical to that of our original and supply the future timeframe of the first 6 months of 2025. From those predictions, the following trends are seen.
+We create a training set from the statistical data of the first 70% of observations, with the remaining 30% serving as the test set. After training and predicting on our test set, we see a mean absolute error of about 0.5913. Finally, we use all the original data as the training data for a model object identical to that of our original and supply the future time frame of the first 6 months of 2025. From those predictions, the following trends are seen.
 
 ![Statistical Data Predicted Differences](images/stat_preds.png)
 
 As seen here, the time series model predicts a decline in paper output for each subfield over the first 6 months of 2025, with the exception being in Machine Learning. Further inspection into the changes of the percentages over time show an inconsistent rate of change, with many ups and downs.
 
-![Applications (Statistics) Predicted Differences](images/app_preds.png)
-
-This figure shows a trend commonly seen in the predictions of each of the individual subfields. Considering the nature of the statistical data from our observations, it seems apt that the predictions themselves also reflect the inconsistency seen in paper output. Ultimately, from these predictions, in the short term Machine Learning is expected to see the most paper output.
+This further analysis shows a trend commonly seen in the predictions of each of the individual subfields. Considering the nature of the statistical data from our observations, it seems apt that the predictions themselves also reflect the inconsistency seen in paper output. Ultimately, from these predictions, in the short term Machine Learning is expected to see the most paper output.
 
 ### Computational Data Analysis
 
 #### Fields with the largest publication increase
 
+Once more, we use the same two methods to quantify this. We look at average growth (in percentages) year over year for each subtopic before then comparing the raw paper output from the first year of comparison for each subtopic to its more recent paper output total. The two plots below show us the results.
+
+![Computational Data Average Growth and Ratio Plots](images/ratio_comp-imageonline.co-merged.png)
+
+Similar to Statistics Theory in our statistical data yearly growth plot, Computational Physics has the highest average growth but a small ratio, indicating that it is the most volatile subfield with publication outputs varying between relatively small and relatively large. From these plots, we can see that Artifical Intelligence, Computer Vision, and Neural and Evolutionary Computing seem to be the largest subfields in terms of growth.
+
+#### Changes in the top fields over the years
+
+![Computational Data Top 4 Subfields Yearly](images/top4_comp.png)
+
+From this, we can see that the subfields comprising the majority of computational papers have been Artifical Intelligence, Computation and Language (Natural Language Processing), and Computer Vision and Pattern Recognition. Perhaps surprisingly, the Artifical Intelligence subfield has been one of the larger subfields for much longer than its stay in the public lexicon. Despite it only recently becoming known to the general public, the research output indicates it has been an emerging and popular publication subfield for quite a while.
+
+#### Projected growth of computational fields
+
+Using a subset from 2015 to the present, the average growth of each subfield is extremely similar to that displayed in Figure 9. Thus, to gain additional insight into the projected growth of the computational fields in question, we turn toward the time series model once again.
+
+#### Creating the time series model
+
+We again choose a model that predicts future values based on the previous values of each individual subfield due to a weak correlation between the subfields.
+
+The model itself is constructed using the skforecast package from @skforecast. We use a LightGBM regressor to create a ForecasterAutoregMultiSeries object from the aforementioned skforecast library. From previous fitting of a Vector Autoregression Model, we specify 13 lag periods for this object.
+
+We create a training set from the statistical data of the first 70% of observations, with the remaining 30% serving as the test set. After training and predicting on our test set, we see a mean absolute error of about 2.0295. Notably, we can see that our model is less accurate in predicting the differences in computational fields as compared to the similar model used for the statistical data. We then use all the original data as the training data for a model object identical to that of our original and supply the future time frame of the first 6 months of 2025. The predicted trends are seen below.
+
+![Computational Data Predicted Differences](images/comp_preds.png)
+
+From our time series model, we see a projected growth in publication output for Artifical Intelligence, Neural and Evolutionary Computing, and a smaller growth for Computer Vision and Pattern Recognition. This model projects more publication growth than the comparable statistical data model, which only projected growth for one subfield. However, it is important to note that the mean absolute error for this model is larger, and as such the model predictions may be less accurate.
+
 ## Conclusion {#sec-conc}
 
-## Disclosure statement
+From looking at the various statistical and computational subfields from the 1990s to the present day, we can see that the popularity of research and paper output for subfields remains fairly consistent. While the actual outputs, as in the raw paper totals, vary a lot year by year, the top subfields tend to keep their places. For statistical data that was Machine Learning, Methodology, Applications, and Computation. For computational data, that was Computation and Language (Natural Language Processing), Artificial Intelligence, and Computer Vision and Pattern Recognition. With that being said, there are several subfields our models predicted to grow in the near future. The computational time series model projected a growth in the Neural and Evolutionary Computing subfield, a subfield not often in the top subfields in terms of paper output. It also projected continued growth for the field of Artifical Intelligence and to a lesser extent Computer Vision and Pattern Recongition. On the other hand, the statistical time series model projected continued growth for the Machine Learning subfield, while projecting short term decreases in the output of other subfields. It is important to note that the differences in predicted growth between the statistical and computational models may be affected by the source of publications used in this analysis, as arXiv hosts more computational papers than statistical papers. As a result, future analysis may want to incorporate several different sources and/or using oversampling techniques to ensure comparable analysis for each subtopic. These insights aim to provide a framework for future retrospective analysis, and to capture the trends and expectations of research from a specific point in time.
 
-The authors have the following conflicts of interest to declare (or replace with a statement that no conflicts of interest exist).
+## Source Code and Data {.appendix}
 
-## Data Availability Statement
-
-Deidentified data have been made available at the following URL: XX.
-
-## Supplementary Material {.supplementary}
-
-Title:
-
-:   Brief description. (file type)
-
-R-package for MYNEW routine:
-
-:   R-package MYNEW containing code to perform the diagnostic methods described in the article. The package also contains all datasets used as examples in the article. (GNU zipped tar file)
+All code used in the production of this analysis as well as the original dataset from arXiV can be found at [this repository](https://github.com/narenp12/stats140finalproj).

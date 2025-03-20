@@ -1,0 +1,3175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Notebook for statistical research analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="stat_files/libs/clipboard/clipboard.min.js"></script>
+<script src="stat_files/libs/quarto-html/quarto.js"></script>
+<script src="stat_files/libs/quarto-html/popper.min.js"></script>
+<script src="stat_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="stat_files/libs/quarto-html/anchor.min.js"></script>
+<link href="stat_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="stat_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="stat_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="stat_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="stat_files/libs/bootstrap/bootstrap-a943fd88264382075bece5689f2f9969.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Notebook for statistical research analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cell-2" class="cell" data-execution_count="144">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn <span class="im">as</span> sk</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.tsa.api</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.api <span class="im">import</span> VAR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="to-do-list-for-this" class="level2">
+<h2 class="anchored" data-anchor-id="to-do-list-for-this">To-do list for this</h2>
+<section id="question-1-what-statistical-fields-have-seen-the-largest-increase-in-publications" class="level3">
+<h3 class="anchored" data-anchor-id="question-1-what-statistical-fields-have-seen-the-largest-increase-in-publications">Question 1: What statistical fields have seen the largest increase in publications?</h3>
+<ul>
+<li>Rate of change</li>
+<li>Look at different time frames ### Question 2: How have the most published statistical fields changed over time?</li>
+<li>Ordering by count, top 3-5 (variable based on observation)</li>
+<li>Try to find external sources and link to developments ### Question 3: What statistical fields are projected to grow the most in the coming years?</li>
+<li>Little bit of modeling</li>
+<li>Also look at recent rates of change and trend analysis</li>
+</ul>
+<div id="cell-4" class="cell" data-execution_count="145">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stats_data <span class="op">=</span> pd.read_csv(<span class="st">'stats_data.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<div id="cell-6" class="cell" data-execution_count="146">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cat_year_num <span class="op">=</span> stats_data.groupby([<span class="st">'category'</span>, <span class="st">'year'</span>]).count()[<span class="st">'Unnamed: 0'</span>].reset_index()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cat_year_num.rename(columns<span class="op">=</span>{<span class="st">'Unnamed: 0'</span>: <span class="st">'count'</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.unique(cat_year_num.category))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Applications (Statistics)' 'Computation (Statistics)'
+ 'Data Analysis, Statistics and Probability'
+ 'Machine Learning (Statistics)' 'Methodology (Statistics)'
+ 'Other Statistics' 'Statistics Theory']</code></pre>
+</div>
+</div>
+<div id="cell-7" class="cell" data-execution_count="147">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Saving colors for each topic for later</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>default <span class="op">=</span> px.colors.qualitative.Plotly</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>color_dict <span class="op">=</span> {<span class="st">'Applications (Statistics)'</span>: default[<span class="dv">0</span>], <span class="st">'Computation (Statistics)'</span>:default[<span class="dv">1</span>], <span class="st">'Data Analysis, Statistics and Probability'</span>:default[<span class="dv">2</span>],<span class="st">'Machine Learning (Statistics)'</span>:default[<span class="dv">3</span>], <span class="st">'Methodology (Statistics)'</span>:default[<span class="dv">4</span>], <span class="st">'Other Statistics'</span>:default[<span class="dv">5</span>], <span class="st">'Statistics Theory'</span>:default[<span class="dv">6</span>]}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="bar-plots-for-individual-statistical-topics" class="level3">
+<h3 class="anchored" data-anchor-id="bar-plots-for-individual-statistical-topics">Bar plots for individual statistical topics</h3>
+<div id="cell-9" class="cell" data-execution_count="148">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Applications (Statistics)'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="149">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Computation (Statistics)'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="150">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Data Analysis, Statistics and Probability'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="151">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Machine Learning (Statistics)'</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="152">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Methodology (Statistics)'</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="153">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Other Statistics'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-15" class="cell" data-execution_count="154">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> <span class="st">'Statistics Theory'</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>px.bar(cat_year_num.query(<span class="st">"category == @top"</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, title<span class="op">=</span> top <span class="op">+</span> <span class="st">" Papers by Year"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[top]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-percent-increases-per-subtopic-and-identifying-the-max-output-and-its-associated-year" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-percent-increases-per-subtopic-and-identifying-the-max-output-and-its-associated-year">Calculating percent increases per subtopic and identifying the max output and its associated year</h3>
+<div id="cell-17" class="cell" data-execution_count="155">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>topics <span class="op">=</span> pd.unique(cat_year_num.category)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="156">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>topics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="156">
+<pre><code>array(['Applications (Statistics)', 'Computation (Statistics)',
+       'Data Analysis, Statistics and Probability',
+       'Machine Learning (Statistics)', 'Methodology (Statistics)',
+       'Other Statistics', 'Statistics Theory'], dtype=object)</code></pre>
+</div>
+</div>
+<div id="cell-19" class="cell" data-execution_count="157">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cat_year_num.query(<span class="st">'category == @topics[0]'</span>)[<span class="st">'count'</span>].pct_change()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="157">
+<pre><code>0          NaN
+1     1.000000
+2     0.000000
+3    -0.500000
+4     1.000000
+5     4.000000
+6    -0.700000
+7     1.000000
+8     1.000000
+9     1.916667
+10   -0.314286
+11    0.291667
+12    0.225806
+13    0.289474
+14   -0.571429
+15   -0.238095
+16   -0.312500
+17    0.272727
+Name: count, dtype: float64</code></pre>
+</div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pct_change <span class="op">=</span> cat_year_num.groupby([<span class="st">'category'</span>])[<span class="st">'count'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cat_year_num[<span class="st">'pct'</span>] <span class="op">=</span> pd.Series(pct_change)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>cat_year_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="158">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">count</th>
+<th data-quarto-table-cell-role="th">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Applications (Statistics)</td>
+<td>2007</td>
+<td>1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Applications (Statistics)</td>
+<td>2008</td>
+<td>2</td>
+<td>100.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Applications (Statistics)</td>
+<td>2009</td>
+<td>2</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Applications (Statistics)</td>
+<td>2010</td>
+<td>1</td>
+<td>-50.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Applications (Statistics)</td>
+<td>2011</td>
+<td>2</td>
+<td>100.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">107</td>
+<td>Statistics Theory</td>
+<td>2020</td>
+<td>39</td>
+<td>-11.363636</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">108</td>
+<td>Statistics Theory</td>
+<td>2021</td>
+<td>10</td>
+<td>-74.358974</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">109</td>
+<td>Statistics Theory</td>
+<td>2022</td>
+<td>10</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">110</td>
+<td>Statistics Theory</td>
+<td>2023</td>
+<td>2</td>
+<td>-80.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">111</td>
+<td>Statistics Theory</td>
+<td>2024</td>
+<td>1</td>
+<td>-50.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>112 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="159">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> topics:</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.line(cat_year_num.query(<span class="st">"category == @x"</span>), x <span class="op">=</span> <span class="st">"year"</span>, y <span class="op">=</span> <span class="st">"pct"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[x]], title<span class="op">=</span><span class="st">"Percentage change in publication count: "</span> <span class="op">+</span> x)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-22" class="cell" data-execution_count="160">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>px.line(cat_year_num, x <span class="op">=</span> <span class="st">"year"</span>, y <span class="op">=</span> <span class="st">"pct"</span>, color<span class="op">=</span><span class="st">'category'</span>, facet_col<span class="op">=</span><span class="st">'category'</span>,title<span class="op">=</span><span class="st">"Percentage change in publication count: All topics"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>avg_pct_growth <span class="op">=</span> cat_year_num.groupby([<span class="st">'category'</span>])[<span class="st">'pct'</span>].mean().reset_index()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>px.bar(avg_pct_growth, x <span class="op">=</span> <span class="st">'category'</span>, y <span class="op">=</span> <span class="st">'pct'</span>, color<span class="op">=</span><span class="st">'category'</span>, title <span class="op">=</span> <span class="st">"Average percentage growth (year to year) by subfield"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>count_groups <span class="op">=</span> cat_year_num.groupby(<span class="st">'category'</span>).agg(first<span class="op">=</span>(<span class="st">'count'</span>, <span class="st">'first'</span>), last<span class="op">=</span>(<span class="st">'count'</span>, <span class="st">'last'</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>count_groups[<span class="st">'ratio'</span>] <span class="op">=</span> count_groups[<span class="st">'last'</span>] <span class="op">/</span> count_groups[<span class="st">'first'</span>]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>count_groups <span class="op">=</span> count_groups.reset_index()</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>count_groups</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="162">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">first</th>
+<th data-quarto-table-cell-role="th">last</th>
+<th data-quarto-table-cell-role="th">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Applications (Statistics)</td>
+<td>1</td>
+<td>14</td>
+<td>14.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Computation (Statistics)</td>
+<td>3</td>
+<td>14</td>
+<td>4.666667</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>1</td>
+<td>1</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Machine Learning (Statistics)</td>
+<td>21</td>
+<td>645</td>
+<td>30.714286</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Methodology (Statistics)</td>
+<td>4</td>
+<td>87</td>
+<td>21.750000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Other Statistics</td>
+<td>1</td>
+<td>1</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Statistics Theory</td>
+<td>1</td>
+<td>1</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="163">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Comparing the 2024 paper counts vs the first paper publication year's counts</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>px.bar(count_groups, x <span class="op">=</span> <span class="st">'category'</span>, y <span class="op">=</span> <span class="st">'ratio'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Ratio of 2024 paper count to initial paper count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p>How have the top fields changed? Look at the top categories per year in paper output</p>
+<div id="cell-27" class="cell" data-execution_count="164">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>top_4 <span class="op">=</span> cat_year_num.groupby(<span class="st">'year'</span>).<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.nlargest(<span class="dv">4</span>, <span class="st">'count'</span>)).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>top_4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_117494/3017204090.py:1: DeprecationWarning:
+
+DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="164">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">count</th>
+<th data-quarto-table-cell-role="th">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Statistics Theory</td>
+<td>2005</td>
+<td>1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Machine Learning (Statistics)</td>
+<td>2007</td>
+<td>21</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Statistics Theory</td>
+<td>2007</td>
+<td>8</td>
+<td>700.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Methodology (Statistics)</td>
+<td>2007</td>
+<td>4</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Applications (Statistics)</td>
+<td>2007</td>
+<td>1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">68</td>
+<td>Computation (Statistics)</td>
+<td>2023</td>
+<td>5</td>
+<td>-54.545455</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">69</td>
+<td>Machine Learning (Statistics)</td>
+<td>2024</td>
+<td>645</td>
+<td>25.486381</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">70</td>
+<td>Methodology (Statistics)</td>
+<td>2024</td>
+<td>87</td>
+<td>47.457627</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">71</td>
+<td>Applications (Statistics)</td>
+<td>2024</td>
+<td>14</td>
+<td>27.272727</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72</td>
+<td>Computation (Statistics)</td>
+<td>2024</td>
+<td>14</td>
+<td>180.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>73 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="165">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>px.bar(top_4, x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Top 4 categories by paper output: All years"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>For scaling reasons, I will break up the time span into chunks</p>
+<div id="cell-30" class="cell" data-execution_count="166">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>px.bar(top_4.query(<span class="st">'year &lt;= 2011'</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Top 4 categories by paper output: Up until 2011"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<section id="year---topics-in-order-g-to-l" class="level4">
+<h4 class="anchored" data-anchor-id="year---topics-in-order-g-to-l">Year - topics in order (G to L)</h4>
+<ul>
+<li>2005 : Statistics Theory</li>
+<li>2006 : NA</li>
+<li>2007 : Machine Learning, Statistics Theory, Methodology, Applications</li>
+<li>2008 : Machine Learning, (TIE) Statistics Theory and Methodology, Computation</li>
+<li>2009 : Machine Learning, Statistics Theory, Methodology, Computation</li>
+<li>2010 : Machine Learning, Methodology, TIE (Statistics Theory and Computation)</li>
+<li>2011 : Machine Learning, Methodology, Computation, Applications</li>
+</ul>
+<div id="cell-32" class="cell" data-execution_count="167">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>px.bar(top_4.query(<span class="st">'year &gt;= 2011 &amp; year &lt;= 2015'</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Top 4 categories by paper output: 2011 - 2015"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<ul>
+<li>2012 : Machine Learning, Methodology, Statistics Theory, Computation</li>
+<li>2013 : Machine Learning, Methodology, Computation, Applications</li>
+<li>2014 : Machine Learning, Methodology, Computation, Statistics Theory</li>
+<li>2015 : Machine Learning, TIE (Methodology and Computation), Applications</li>
+</ul>
+<div id="cell-34" class="cell" data-execution_count="168">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>px.bar(top_4.query(<span class="st">'year &gt;= 2015 &amp; year &lt;= 2020'</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Top 4 categories by paper output: 2015 - 2020"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<ul>
+<li>2016 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2017 : Machine Learning, Methodology, Aplications, Statistics Theory</li>
+<li>2018 : Machine Learning, Methodology, Computation, Applications</li>
+<li>2019 : Machine Learning, Methodology, Statistics Theory, Applications</li>
+<li>2020 : Machine Learning, Methodology, Applications, Statistics Theory</li>
+</ul>
+<div id="cell-36" class="cell" data-execution_count="169">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>px.bar(top_4.query(<span class="st">'year &gt;= 2020'</span>), x <span class="op">=</span> <span class="st">'year'</span>, y <span class="op">=</span> <span class="st">'count'</span>, color<span class="op">=</span><span class="st">'category'</span>, title<span class="op">=</span><span class="st">"Top 4 categories by paper output: 2020 - 2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<ul>
+<li>2021 : Machine Learning, Methodology, Applications, Statistics Theory</li>
+<li>2022 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2023 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2024 : Machine Learning, Methodology, TIE (Applications and Computation)</li>
+</ul>
+</section>
+<section id="one-definitive-top-topics-list" class="level3">
+<h3 class="anchored" data-anchor-id="one-definitive-top-topics-list">One definitive top topics list</h3>
+<ul>
+<li>2005 : Statistics Theory</li>
+<li>2006 : NA</li>
+<li>2007 : Machine Learning, Statistics Theory, Methodology, Applications</li>
+<li>2008 : Machine Learning, (TIE) Statistics Theory and Methodology, Computation</li>
+<li>2009 : Machine Learning, Statistics Theory, Methodology, Computation</li>
+<li>2010 : Machine Learning, Methodology, TIE (Statistics Theory and Computation)</li>
+<li>2011 : Machine Learning, Methodology, Computation, Applications</li>
+<li>2012 : Machine Learning, Methodology, Statistics Theory, Computation</li>
+<li>2013 : Machine Learning, Methodology, Computation, Applications</li>
+<li>2014 : Machine Learning, Methodology, Computation, Statistics Theory</li>
+<li>2015 : Machine Learning, TIE (Methodology and Computation), Applications</li>
+<li>2016 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2017 : Machine Learning, Methodology, Aplications, Statistics Theory</li>
+<li>2018 : Machine Learning, Methodology, Computation, Applications</li>
+<li>2019 : Machine Learning, Methodology, Statistics Theory, Applications</li>
+<li>2020 : Machine Learning, Methodology, Applications, Statistics Theory</li>
+<li>2021 : Machine Learning, Methodology, Applications, Statistics Theory</li>
+<li>2022 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2023 : Machine Learning, Methodology, Applications, Computation</li>
+<li>2024 : Machine Learning, Methodology, TIE (Applications and Computation)</li>
+</ul>
+<p>With starting analysis from 2007 (due to the NA for 2006), Machine Learning has been KING with Methodology second and Applications a clear third</p>
+</section>
+</section>
+<section id="question-3-what-statistical-fields-are-projected-to-grow-the-most-in-the-coming-years" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-what-statistical-fields-are-projected-to-grow-the-most-in-the-coming-years">Question 3: What statistical fields are projected to grow the most in the coming years?</h2>
+<div id="cell-41" class="cell" data-execution_count="170">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using 2015 as a reference</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>recent <span class="op">=</span> cat_year_num.query(<span class="st">"year &gt;= 2015"</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>recent_growth <span class="op">=</span> recent.groupby([<span class="st">'category'</span>])[<span class="st">'pct'</span>].mean().reset_index()</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>px.bar(recent_growth, x <span class="op">=</span> <span class="st">'category'</span>, y <span class="op">=</span> <span class="st">'pct'</span>, color <span class="op">=</span> <span class="st">'category'</span>, title<span class="op">=</span><span class="st">'Average yearly growth (percentage) since 2015'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>We can see recent increases in Methodology and Computation (meaning our assertion of statistical growth being linked to the growth of computation may have some truth)</p>
+<section id="time-series-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="time-series-prediction">Time Series Prediction</h3>
+<p>Our initial stats data we used here was yearly, but for predicting future rates of change in these fields, we want to use all the monthly data from the original dataset.</p>
+<div id="cell-44" class="cell" data-execution_count="171">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> pd.read_parquet(<span class="st">"arXiv.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-45" class="cell" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>original</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="172">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">category_code</th>
+<th data-quarto-table-cell-role="th">published_date</th>
+<th data-quarto-table-cell-role="th">updated_date</th>
+<th data-quarto-table-cell-role="th">authors</th>
+<th data-quarto-table-cell-role="th">first_author</th>
+<th data-quarto-table-cell-role="th">summary</th>
+<th data-quarto-table-cell-role="th">summary_word_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>cs-9308101v1</td>
+<td>Dynamic Backtracking</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>1993-08-01</td>
+<td>1993-08-01</td>
+<td>['M. L. Ginsberg']</td>
+<td>'M. L. Ginsberg'</td>
+<td>Because of their occasional need to return to ...</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>cs-9308102v1</td>
+<td>A Market-Oriented Programming Environment and ...</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>1993-08-01</td>
+<td>1993-08-01</td>
+<td>['M. P. Wellman']</td>
+<td>'M. P. Wellman'</td>
+<td>Market price systems constitute a well-underst...</td>
+<td>119</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>cs-9309101v1</td>
+<td>An Empirical Analysis of Search in GSAT</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>1993-09-01</td>
+<td>1993-09-01</td>
+<td>['I. P. Gent', 'T. Walsh']</td>
+<td>'I. P. Gent'</td>
+<td>We describe an extensive study of search in GS...</td>
+<td>167</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>cs-9311101v1</td>
+<td>The Difficulties of Learning Logic Programs wi...</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>1993-11-01</td>
+<td>1993-11-01</td>
+<td>['F. Bergadano', 'D. Gunetti', 'U. Trinchero']</td>
+<td>'F. Bergadano'</td>
+<td>As real logic programmers normally use cut (!)...</td>
+<td>174</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>cs-9311102v1</td>
+<td>Software Agents: Completing Patterns and Const...</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>1993-11-01</td>
+<td>1993-11-01</td>
+<td>['J. C. Schlimmer', 'L. A. Hermens']</td>
+<td>'J. C. Schlimmer'</td>
+<td>To support the goal of allowing users to recor...</td>
+<td>187</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">136233</td>
+<td>abs-2408.08541v1</td>
+<td>Where is the signal in tokenization space?</td>
+<td>Computation and Language (Natural Language Pro...</td>
+<td>cs.CL</td>
+<td>2024-08-16</td>
+<td>2024-08-16</td>
+<td>['Renato Lui Geh', 'Honghua Zhang', 'Kareem Ah...</td>
+<td>'Renato Lui Geh'</td>
+<td>Large Language Models (LLMs) are typically shi...</td>
+<td>170</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">136234</td>
+<td>abs-2408.08564v1</td>
+<td>Collaborative Cross-modal Fusion with Large La...</td>
+<td>Information Retrieval</td>
+<td>cs.IR</td>
+<td>2024-08-16</td>
+<td>2024-08-16</td>
+<td>['Zhongzhou Liu', 'Hao Zhang', 'Kuicai Dong', ...</td>
+<td>'Zhongzhou Liu'</td>
+<td>Despite the success of conventional collaborat...</td>
+<td>157</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">136235</td>
+<td>abs-2408.08624v1</td>
+<td>RealMedQA: A pilot biomedical question answeri...</td>
+<td>Computation and Language (Natural Language Pro...</td>
+<td>cs.CL</td>
+<td>2024-08-16</td>
+<td>2024-08-16</td>
+<td>['Gregory Kell', 'Angus Roberts', 'Serge Umans...</td>
+<td>'Gregory Kell'</td>
+<td>Clinical question answering systems have the p...</td>
+<td>153</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">136236</td>
+<td>abs-2408.08648v1</td>
+<td>Understanding Enthymemes in Argument Maps: Bri...</td>
+<td>Artificial Intelligence</td>
+<td>cs.AI</td>
+<td>2024-08-16</td>
+<td>2024-08-16</td>
+<td>['Jonathan Ben-Naim', 'Victor David', 'Anthony...</td>
+<td>'Jonathan Ben-Naim'</td>
+<td>Argument mining is natural language processing...</td>
+<td>194</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">136237</td>
+<td>abs-2408.08651v2</td>
+<td>Reasoning Beyond Bias: A Study on Counterfactu...</td>
+<td>Computation and Language (Natural Language Pro...</td>
+<td>cs.CL</td>
+<td>2024-08-16</td>
+<td>2024-09-06</td>
+<td>['Kyle Moore', 'Jesse Roberts', 'Thao Pham', '...</td>
+<td>'Kyle Moore'</td>
+<td>Language models are known to absorb biases fro...</td>
+<td>156</td>
+</tr>
+</tbody>
+</table>
+
+<p>136238 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-46" class="cell" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>original.published_date <span class="op">=</span> pd.to_datetime(original.published_date)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>original[<span class="st">'year'</span>] <span class="op">=</span> original.published_date.dt.year</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>original[<span class="st">'month'</span>] <span class="op">=</span> original.published_date.dt.month</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>copy <span class="op">=</span> original</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> original.query(<span class="st">"year != 2025"</span>) <span class="co">#Want full year data (2025 incomplete)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="174">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> pd.Series(pd.unique(original.category))</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>stats_topics <span class="op">=</span> pd.Series(categories[categories.astype(<span class="bu">str</span>).<span class="bu">str</span>.contains(<span class="st">"Statistics"</span>)])</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>stats_date <span class="op">=</span> original.query(<span class="st">'category.isin(@stats_topics)'</span>).groupby([<span class="st">'published_date'</span>, <span class="st">'category'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>).query(<span class="st">"count &gt; 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-48" class="cell" data-execution_count="175">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>stats_date</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="175">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">published_date</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2005-09-29</td>
+<td>Statistics Theory</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2007-01-07</td>
+<td>Statistics Theory</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2007-04-09</td>
+<td>Statistics Theory</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2007-04-13</td>
+<td>Applications (Statistics)</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2007-05-02</td>
+<td>Statistics Theory</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5215</td>
+<td>2024-12-29</td>
+<td>Computation (Statistics)</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5216</td>
+<td>2024-12-29</td>
+<td>Machine Learning (Statistics)</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5217</td>
+<td>2024-12-29</td>
+<td>Methodology (Statistics)</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5218</td>
+<td>2024-12-30</td>
+<td>Machine Learning (Statistics)</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5219</td>
+<td>2024-12-31</td>
+<td>Machine Learning (Statistics)</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>5220 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<p>With this dataset of paper counts and dates, first we want to see if there is any sort of dependency between all statistical topics.</p>
+<div id="cell-50" class="cell" data-execution_count="176">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>corr_df <span class="op">=</span> stats_date.pivot_table(index<span class="op">=</span><span class="st">'published_date'</span>, columns<span class="op">=</span><span class="st">'category'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-51" class="cell" data-execution_count="177">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>cn <span class="op">=</span> pd.Series(pd.unique(stats_date.category)).sort_values()</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>corr_df.columns <span class="op">=</span> cn</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>corr_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="177">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Applications (Statistics)</th>
+<th data-quarto-table-cell-role="th">Computation (Statistics)</th>
+<th data-quarto-table-cell-role="th">Data Analysis, Statistics and Probability</th>
+<th data-quarto-table-cell-role="th">Machine Learning (Statistics)</th>
+<th data-quarto-table-cell-role="th">Methodology (Statistics)</th>
+<th data-quarto-table-cell-role="th">Other Statistics</th>
+<th data-quarto-table-cell-role="th">Statistics Theory</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">published_date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2005-09-29</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-01-07</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-04-09</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-04-13</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-05-02</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-26</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-12-27</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>5.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-29</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-12-30</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-31</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>3956 rows × 7 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-52" class="cell" data-execution_count="178">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sb</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>sb.heatmap(corr_df.corr(), cmap<span class="op">=</span><span class="st">'Blues'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="stat_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From this, we can see that topic correlation is very low. Next we test for the stationarity of the data.</p>
+<div id="cell-54" class="cell" data-execution_count="179">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>app_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Applications (Statistics)'</span>].values)</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>app_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="179">
+<pre><code>(np.float64(-14.704384404838528),
+ np.float64(2.9128503694490928e-27),
+ 12,
+ 3943,
+ {'1%': np.float64(-3.4320095389991705),
+  '5%': np.float64(-2.8622732935270228),
+  '10%': np.float64(-2.56716034045187)},
+ np.float64(978.0418504568133))</code></pre>
+</div>
+</div>
+<p>Based on the p value here (the second float value) we can reject the null hypothesis and claim this time series is stationary. We’ll repeat this process for all of our topic variables.</p>
+<div id="cell-56" class="cell" data-execution_count="180">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>comp_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Computation (Statistics)'</span>].values)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>comp_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="180">
+<pre><code>(np.float64(-9.620537140561407),
+ np.float64(1.7138204914043168e-16),
+ 29,
+ 3926,
+ {'1%': np.float64(-3.432016729687226),
+  '5%': np.float64(-2.862276469956464),
+  '10%': np.float64(-2.567162031453515)},
+ np.float64(465.9516432820237))</code></pre>
+</div>
+</div>
+<div id="cell-57" class="cell" data-execution_count="181">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>dsp_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Data Analysis, Statistics and Probability'</span>].values)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>dsp_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="181">
+<pre><code>(np.float64(-63.53643897450045),
+ 0.0,
+ 0,
+ 3955,
+ {'1%': np.float64(-3.4320045004616855),
+  '5%': np.float64(-2.862271067788467),
+  '10%': np.float64(-2.567159155560102)},
+ np.float64(-6522.3029131599815))</code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-execution_count="182">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>ml_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Machine Learning (Statistics)'</span>].values)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>ml_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="182">
+<pre><code>(np.float64(-7.393676245786423),
+ np.float64(7.879726500540191e-11),
+ 19,
+ 3936,
+ {'1%': np.float64(-3.432012492343266),
+  '5%': np.float64(-2.8622745981442903),
+  '10%': np.float64(-2.5671610349768037)},
+ np.float64(16268.936330288921))</code></pre>
+</div>
+</div>
+<div id="cell-59" class="cell" data-execution_count="183">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>met_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Methodology (Statistics)'</span>].values)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>met_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="183">
+<pre><code>(np.float64(-7.646895072241326),
+ np.float64(1.8324946919300654e-11),
+ 29,
+ 3926,
+ {'1%': np.float64(-3.432016729687226),
+  '5%': np.float64(-2.862276469956464),
+  '10%': np.float64(-2.567162031453515)},
+ np.float64(5661.403911100002))</code></pre>
+</div>
+</div>
+<div id="cell-60" class="cell" data-execution_count="184">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>ot_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Other Statistics'</span>].values)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>ot_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="184">
+<pre><code>(np.float64(-63.01645144044758),
+ 0.0,
+ 0,
+ 3955,
+ {'1%': np.float64(-3.4320045004616855),
+  '5%': np.float64(-2.862271067788467),
+  '10%': np.float64(-2.567159155560102)},
+ np.float64(-12717.869628493347))</code></pre>
+</div>
+</div>
+<div id="cell-61" class="cell" data-execution_count="185">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>st_test <span class="op">=</span> adfuller(corr_df[<span class="st">'Statistics Theory'</span>].values)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>st_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="185">
+<pre><code>(np.float64(-9.822120246295285),
+ np.float64(5.3039924719679993e-17),
+ 26,
+ 3929,
+ {'1%': np.float64(-3.432015456217749),
+  '5%': np.float64(-2.862275907411977),
+  '10%': np.float64(-2.5671617319776505)},
+ np.float64(281.33665033793295))</code></pre>
+</div>
+</div>
+<p>Based on all of these tests, it seems that all of our individual time series have data that can be considered stationary. With this, we choose a Vector Autoregression model for this multivariate time series despite our relatively weak dependencies between variables.</p>
+<section id="var-with-statsmodels" class="level4">
+<h4 class="anchored" data-anchor-id="var-with-statsmodels">VAR with statsmodels</h4>
+<div id="cell-64" class="cell" data-execution_count="186">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Reshaping the data for creating the VAR model</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>corr_df[<span class="st">'month'</span>] <span class="op">=</span> corr_df.index.month</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>corr_df[<span class="st">'year'</span>] <span class="op">=</span> corr_df.index.year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-65" class="cell" data-execution_count="187">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>date_ind <span class="op">=</span> corr_df[[<span class="st">'month'</span>, <span class="st">'year'</span>]].astype(<span class="bu">int</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-66" class="cell" data-execution_count="188">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>month_yr <span class="op">=</span> date_ind[<span class="st">'month'</span>] <span class="op">+</span> <span class="st">"/"</span> <span class="op">+</span> date_ind[<span class="st">'year'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-67" class="cell" data-execution_count="189">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.base.datetools <span class="im">import</span> dates_from_str</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>month_yr <span class="op">=</span> dates_from_str(month_yr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-68" class="cell" data-execution_count="190">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>sub <span class="op">=</span> corr_df.iloc[:, <span class="dv">0</span>:<span class="dv">7</span>]</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>sub.index <span class="op">=</span> pd.DatetimeIndex(month_yr).to_period(<span class="st">'M'</span>)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>sub <span class="op">=</span> sub.diff().dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-69" class="cell" data-execution_count="191">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>np.floor(sub.shape[<span class="dv">0</span>] <span class="op">*</span> <span class="fl">0.3</span>)</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> sub[:<span class="op">-</span><span class="dv">1186</span>]</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> sub[<span class="op">-</span><span class="dv">1186</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-70" class="cell" data-execution_count="192">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> VAR(train)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>lag <span class="op">=</span> model.select_order(<span class="dv">30</span>)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>lag.selected_orders</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="192">
+<pre><code>{'aic': np.int64(16),
+ 'bic': np.int64(6),
+ 'hqic': np.int64(9),
+ 'fpe': np.int64(16)}</code></pre>
+</div>
+</div>
+<p>Based on this I will choose 9 lags (as a compromise between the AIC and BIC)</p>
+<div id="cell-72" class="cell" data-execution_count="193">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>var_mod <span class="op">=</span> VAR(train)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>fitted <span class="op">=</span> var_mod.fit(maxlags<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>fitted.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="193">
+<pre><code>  Summary of Regression Results   
+==================================
+Model:                         VAR
+Method:                        OLS
+Date:           Thu, 20, Mar, 2025
+Time:                     00:29:07
+--------------------------------------------------------------------
+No. of Equations:         7.00000    BIC:                   -16.7274
+Nobs:                     2760.00    HQIC:                  -17.3415
+Log likelihood:          -2555.36    FPE:                2.07912e-08
+AIC:                     -17.6888    Det(Omega_mle):     1.77088e-08
+--------------------------------------------------------------------
+Results for equation Applications (Statistics)
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                                0.000568         0.005222            0.109           0.913
+L1.Applications (Statistics)                        -0.929824         0.019160          -48.530           0.000
+L1.Computation (Statistics)                         -0.005345         0.018368           -0.291           0.771
+L1.Data Analysis, Statistics and Probability         0.037325         0.043304            0.862           0.389
+L1.Machine Learning (Statistics)                     0.001285         0.002748            0.468           0.640
+L1.Methodology (Statistics)                         -0.015230         0.011382           -1.338           0.181
+L1.Other Statistics                                 -0.083171         0.093135           -0.893           0.372
+L1.Statistics Theory                                -0.008989         0.018900           -0.476           0.634
+L2.Applications (Statistics)                        -0.847950         0.025959          -32.665           0.000
+L2.Computation (Statistics)                         -0.011024         0.024254           -0.455           0.649
+L2.Data Analysis, Statistics and Probability         0.025537         0.057954            0.441           0.659
+L2.Machine Learning (Statistics)                    -0.003643         0.003333           -1.093           0.274
+L2.Methodology (Statistics)                         -0.017715         0.015378           -1.152           0.249
+L2.Other Statistics                                  0.346274         0.124276            2.786           0.005
+L2.Statistics Theory                                 0.027329         0.024698            1.107           0.268
+L3.Applications (Statistics)                        -0.783398         0.030075          -26.048           0.000
+L3.Computation (Statistics)                         -0.054491         0.027795           -1.960           0.050
+L3.Data Analysis, Statistics and Probability         0.037463         0.066673            0.562           0.574
+L3.Machine Learning (Statistics)                     0.000796         0.003725            0.214           0.831
+L3.Methodology (Statistics)                         -0.038856         0.017659           -2.200           0.028
+L3.Other Statistics                                  0.286111         0.142709            2.005           0.045
+L3.Statistics Theory                                 0.017176         0.027813            0.618           0.537
+L4.Applications (Statistics)                        -0.678623         0.032551          -20.848           0.000
+L4.Computation (Statistics)                         -0.062755         0.029538           -2.125           0.034
+L4.Data Analysis, Statistics and Probability         0.042585         0.071701            0.594           0.553
+L4.Machine Learning (Statistics)                    -0.005267         0.003908           -1.348           0.178
+L4.Methodology (Statistics)                         -0.035340         0.018853           -1.874           0.061
+L4.Other Statistics                                  0.326037         0.152844            2.133           0.033
+L4.Statistics Theory                                 0.036494         0.029422            1.240           0.215
+L5.Applications (Statistics)                        -0.549823         0.033402          -16.461           0.000
+L5.Computation (Statistics)                         -0.041986         0.029869           -1.406           0.160
+L5.Data Analysis, Statistics and Probability        -0.005175         0.073755           -0.070           0.944
+L5.Machine Learning (Statistics)                    -0.002021         0.003970           -0.509           0.611
+L5.Methodology (Statistics)                         -0.029450         0.019150           -1.538           0.124
+L5.Other Statistics                                  0.477713         0.156381            3.055           0.002
+L5.Statistics Theory                                 0.033680         0.029958            1.124           0.261
+L6.Applications (Statistics)                        -0.434355         0.032500          -13.365           0.000
+L6.Computation (Statistics)                         -0.061844         0.029504           -2.096           0.036
+L6.Data Analysis, Statistics and Probability        -0.050524         0.071606           -0.706           0.480
+L6.Machine Learning (Statistics)                     0.002213         0.003907            0.566           0.571
+L6.Methodology (Statistics)                         -0.001698         0.018875           -0.090           0.928
+L6.Other Statistics                                  0.489262         0.153360            3.190           0.001
+L6.Statistics Theory                                 0.056731         0.029466            1.925           0.054
+L7.Applications (Statistics)                        -0.320177         0.030000          -10.672           0.000
+L7.Computation (Statistics)                         -0.047518         0.027756           -1.712           0.087
+L7.Data Analysis, Statistics and Probability         0.001958         0.066593            0.029           0.977
+L7.Machine Learning (Statistics)                     0.005331         0.003727            1.430           0.153
+L7.Methodology (Statistics)                          0.000414         0.017715            0.023           0.981
+L7.Other Statistics                                  0.349927         0.143364            2.441           0.015
+L7.Statistics Theory                                 0.043151         0.027772            1.554           0.120
+L8.Applications (Statistics)                        -0.224415         0.025914           -8.660           0.000
+L8.Computation (Statistics)                          0.009407         0.024199            0.389           0.697
+L8.Data Analysis, Statistics and Probability        -0.030627         0.057893           -0.529           0.597
+L8.Machine Learning (Statistics)                     0.004304         0.003347            1.286           0.199
+L8.Methodology (Statistics)                          0.002188         0.015426            0.142           0.887
+L8.Other Statistics                                  0.245317         0.125070            1.961           0.050
+L8.Statistics Theory                                 0.030092         0.024614            1.223           0.221
+L9.Applications (Statistics)                        -0.111453         0.019214           -5.801           0.000
+L9.Computation (Statistics)                          0.018008         0.018302            0.984           0.325
+L9.Data Analysis, Statistics and Probability         0.045169         0.043366            1.042           0.298
+L9.Machine Learning (Statistics)                     0.004088         0.002758            1.482           0.138
+L9.Methodology (Statistics)                          0.016578         0.011514            1.440           0.150
+L9.Other Statistics                                  0.127848         0.094026            1.360           0.174
+L9.Statistics Theory                                -0.016459         0.018851           -0.873           0.383
+===============================================================================================================
+
+Results for equation Computation (Statistics)
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                               -0.000089         0.005436           -0.016           0.987
+L1.Applications (Statistics)                        -0.031654         0.019946           -1.587           0.113
+L1.Computation (Statistics)                         -0.879127         0.019121          -45.976           0.000
+L1.Data Analysis, Statistics and Probability        -0.050429         0.045080           -1.119           0.263
+L1.Machine Learning (Statistics)                     0.000988         0.002861            0.346           0.730
+L1.Methodology (Statistics)                          0.019643         0.011849            1.658           0.097
+L1.Other Statistics                                  0.207882         0.096955            2.144           0.032
+L1.Statistics Theory                                -0.000581         0.019675           -0.030           0.976
+L2.Applications (Statistics)                        -0.053555         0.027024           -1.982           0.048
+L2.Computation (Statistics)                         -0.797432         0.025249          -31.582           0.000
+L2.Data Analysis, Statistics and Probability        -0.074074         0.060331           -1.228           0.220
+L2.Machine Learning (Statistics)                     0.000319         0.003469            0.092           0.927
+L2.Methodology (Statistics)                          0.015286         0.016008            0.955           0.340
+L2.Other Statistics                                  0.247131         0.129374            1.910           0.056
+L2.Statistics Theory                                 0.001761         0.025711            0.069           0.945
+L3.Applications (Statistics)                         0.000137         0.031309            0.004           0.997
+L3.Computation (Statistics)                         -0.691973         0.028935          -23.915           0.000
+L3.Data Analysis, Statistics and Probability        -0.091787         0.069408           -1.322           0.186
+L3.Machine Learning (Statistics)                    -0.003269         0.003878           -0.843           0.399
+L3.Methodology (Statistics)                          0.024781         0.018384            1.348           0.178
+L3.Other Statistics                                  0.271863         0.148563            1.830           0.067
+L3.Statistics Theory                                -0.025083         0.028954           -0.866           0.386
+L4.Applications (Statistics)                         0.026013         0.033886            0.768           0.443
+L4.Computation (Statistics)                         -0.581265         0.030750          -18.903           0.000
+L4.Data Analysis, Statistics and Probability        -0.025426         0.074642           -0.341           0.733
+L4.Machine Learning (Statistics)                    -0.000311         0.004068           -0.076           0.939
+L4.Methodology (Statistics)                          0.057496         0.019627            2.929           0.003
+L4.Other Statistics                                  0.330411         0.159114            2.077           0.038
+L4.Statistics Theory                                -0.011006         0.030629           -0.359           0.719
+L5.Applications (Statistics)                         0.017324         0.034773            0.498           0.618
+L5.Computation (Statistics)                         -0.529594         0.031094          -17.032           0.000
+L5.Data Analysis, Statistics and Probability        -0.092910         0.076781           -1.210           0.226
+L5.Machine Learning (Statistics)                    -0.000593         0.004133           -0.143           0.886
+L5.Methodology (Statistics)                          0.041215         0.019935            2.067           0.039
+L5.Other Statistics                                  0.316923         0.162796            1.947           0.052
+L5.Statistics Theory                                 0.031950         0.031187            1.024           0.306
+L6.Applications (Statistics)                         0.001127         0.033833            0.033           0.973
+L6.Computation (Statistics)                         -0.427655         0.030714          -13.924           0.000
+L6.Data Analysis, Statistics and Probability        -0.086587         0.074543           -1.162           0.245
+L6.Machine Learning (Statistics)                     0.004381         0.004067            1.077           0.281
+L6.Methodology (Statistics)                          0.057366         0.019649            2.919           0.004
+L6.Other Statistics                                  0.215516         0.159651            1.350           0.177
+L6.Statistics Theory                                 0.038104         0.030675            1.242           0.214
+L7.Applications (Statistics)                        -0.023754         0.031231           -0.761           0.447
+L7.Computation (Statistics)                         -0.300439         0.028894          -10.398           0.000
+L7.Data Analysis, Statistics and Probability         0.043390         0.069325            0.626           0.531
+L7.Machine Learning (Statistics)                     0.009329         0.003880            2.405           0.016
+L7.Methodology (Statistics)                          0.044959         0.018442            2.438           0.015
+L7.Other Statistics                                  0.387041         0.149245            2.593           0.010
+L7.Statistics Theory                                 0.029146         0.028912            1.008           0.313
+L8.Applications (Statistics)                        -0.039066         0.026977           -1.448           0.148
+L8.Computation (Statistics)                         -0.202966         0.025192           -8.057           0.000
+L8.Data Analysis, Statistics and Probability         0.029783         0.060268            0.494           0.621
+L8.Machine Learning (Statistics)                     0.006926         0.003485            1.988           0.047
+L8.Methodology (Statistics)                          0.033031         0.016059            2.057           0.040
+L8.Other Statistics                                  0.232951         0.130201            1.789           0.074
+L8.Statistics Theory                                 0.003434         0.025624            0.134           0.893
+L9.Applications (Statistics)                        -0.047272         0.020003           -2.363           0.018
+L9.Computation (Statistics)                         -0.122256         0.019053           -6.417           0.000
+L9.Data Analysis, Statistics and Probability         0.038382         0.045145            0.850           0.395
+L9.Machine Learning (Statistics)                     0.002368         0.002871            0.825           0.409
+L9.Methodology (Statistics)                          0.010533         0.011987            0.879           0.380
+L9.Other Statistics                                  0.098078         0.097884            1.002           0.316
+L9.Statistics Theory                                 0.005047         0.019625            0.257           0.797
+===============================================================================================================
+
+Results for equation Data Analysis, Statistics and Probability
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                                0.000035         0.002306            0.015           0.988
+L1.Applications (Statistics)                        -0.009750         0.008460           -1.152           0.249
+L1.Computation (Statistics)                         -0.002069         0.008110           -0.255           0.799
+L1.Data Analysis, Statistics and Probability        -0.907684         0.019121          -47.471           0.000
+L1.Machine Learning (Statistics)                     0.000101         0.001213            0.083           0.934
+L1.Methodology (Statistics)                          0.001075         0.005026            0.214           0.831
+L1.Other Statistics                                 -0.003708         0.041123           -0.090           0.928
+L1.Statistics Theory                                 0.004541         0.008345            0.544           0.586
+L2.Applications (Statistics)                        -0.002768         0.011462           -0.241           0.809
+L2.Computation (Statistics)                          0.000566         0.010709            0.053           0.958
+L2.Data Analysis, Statistics and Probability        -0.815402         0.025589          -31.865           0.000
+L2.Machine Learning (Statistics)                     0.000228         0.001471            0.155           0.877
+L2.Methodology (Statistics)                          0.006682         0.006790            0.984           0.325
+L2.Other Statistics                                 -0.005315         0.054874           -0.097           0.923
+L2.Statistics Theory                                -0.003832         0.010905           -0.351           0.725
+L3.Applications (Statistics)                         0.005703         0.013280            0.429           0.668
+L3.Computation (Statistics)                          0.004986         0.012273            0.406           0.685
+L3.Data Analysis, Statistics and Probability        -0.722740         0.029439          -24.550           0.000
+L3.Machine Learning (Statistics)                     0.000251         0.001645            0.153           0.879
+L3.Methodology (Statistics)                         -0.002144         0.007797           -0.275           0.783
+L3.Other Statistics                                 -0.011895         0.063013           -0.189           0.850
+L3.Statistics Theory                                 0.014269         0.012281            1.162           0.245
+L4.Applications (Statistics)                        -0.002016         0.014373           -0.140           0.888
+L4.Computation (Statistics)                          0.002071         0.013042            0.159           0.874
+L4.Data Analysis, Statistics and Probability        -0.629295         0.031659          -19.877           0.000
+L4.Machine Learning (Statistics)                    -0.000197         0.001726           -0.114           0.909
+L4.Methodology (Statistics)                         -0.001211         0.008325           -0.145           0.884
+L4.Other Statistics                                  0.097947         0.067488            1.451           0.147
+L4.Statistics Theory                                 0.023996         0.012991            1.847           0.065
+L5.Applications (Statistics)                         0.000998         0.014749            0.068           0.946
+L5.Computation (Statistics)                          0.014318         0.013189            1.086           0.278
+L5.Data Analysis, Statistics and Probability        -0.483996         0.032566          -14.862           0.000
+L5.Machine Learning (Statistics)                     0.000237         0.001753            0.135           0.892
+L5.Methodology (Statistics)                         -0.007102         0.008456           -0.840           0.401
+L5.Other Statistics                                  0.076835         0.069050            1.113           0.266
+L5.Statistics Theory                                 0.029837         0.013228            2.256           0.024
+L6.Applications (Statistics)                        -0.007319         0.014350           -0.510           0.610
+L6.Computation (Statistics)                          0.025319         0.013027            1.944           0.052
+L6.Data Analysis, Statistics and Probability        -0.390755         0.031617          -12.359           0.000
+L6.Machine Learning (Statistics)                     0.000818         0.001725            0.474           0.636
+L6.Methodology (Statistics)                         -0.005985         0.008334           -0.718           0.473
+L6.Other Statistics                                  0.057897         0.067716            0.855           0.393
+L6.Statistics Theory                                 0.024160         0.013011            1.857           0.063
+L7.Applications (Statistics)                        -0.003310         0.013247           -0.250           0.803
+L7.Computation (Statistics)                          0.025499         0.012255            2.081           0.037
+L7.Data Analysis, Statistics and Probability        -0.297386         0.029404          -10.114           0.000
+L7.Machine Learning (Statistics)                     0.000727         0.001646            0.442           0.659
+L7.Methodology (Statistics)                         -0.002326         0.007822           -0.297           0.766
+L7.Other Statistics                                  0.034933         0.063302            0.552           0.581
+L7.Statistics Theory                                 0.012400         0.012263            1.011           0.312
+L8.Applications (Statistics)                        -0.003915         0.011442           -0.342           0.732
+L8.Computation (Statistics)                          0.017445         0.010685            1.633           0.103
+L8.Data Analysis, Statistics and Probability        -0.204320         0.025562           -7.993           0.000
+L8.Machine Learning (Statistics)                     0.000234         0.001478            0.158           0.874
+L8.Methodology (Statistics)                         -0.004433         0.006812           -0.651           0.515
+L8.Other Statistics                                  0.023905         0.055224            0.433           0.665
+L8.Statistics Theory                                 0.013909         0.010868            1.280           0.201
+L9.Applications (Statistics)                        -0.005115         0.008484           -0.603           0.547
+L9.Computation (Statistics)                          0.004142         0.008081            0.513           0.608
+L9.Data Analysis, Statistics and Probability        -0.113558         0.019148           -5.931           0.000
+L9.Machine Learning (Statistics)                     0.000643         0.001218            0.528           0.597
+L9.Methodology (Statistics)                         -0.003229         0.005084           -0.635           0.525
+L9.Other Statistics                                  0.001010         0.041517            0.024           0.981
+L9.Statistics Theory                                 0.018622         0.008324            2.237           0.025
+===============================================================================================================
+
+Results for equation Machine Learning (Statistics)
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                                0.009782         0.036653            0.267           0.790
+L1.Applications (Statistics)                        -0.174147         0.134492           -1.295           0.195
+L1.Computation (Statistics)                          0.032838         0.128932            0.255           0.799
+L1.Data Analysis, Statistics and Probability         0.274617         0.303971            0.903           0.366
+L1.Machine Learning (Statistics)                    -0.681118         0.019289          -35.312           0.000
+L1.Methodology (Statistics)                          0.080222         0.079897            1.004           0.315
+L1.Other Statistics                                  0.765502         0.653757            1.171           0.242
+L1.Statistics Theory                                 0.312247         0.132665            2.354           0.019
+L2.Applications (Statistics)                        -0.424305         0.182219           -2.329           0.020
+L2.Computation (Statistics)                          0.198595         0.170252            1.166           0.243
+L2.Data Analysis, Statistics and Probability        -0.002582         0.406807           -0.006           0.995
+L2.Machine Learning (Statistics)                    -0.602174         0.023393          -25.742           0.000
+L2.Methodology (Statistics)                         -0.017161         0.107943           -0.159           0.874
+L2.Other Statistics                                  1.322658         0.872349            1.516           0.129
+L2.Statistics Theory                                 0.348421         0.173367            2.010           0.044
+L3.Applications (Statistics)                        -0.295174         0.211113           -1.398           0.162
+L3.Computation (Statistics)                          0.119518         0.195104            0.613           0.540
+L3.Data Analysis, Statistics and Probability        -0.161435         0.468012           -0.345           0.730
+L3.Machine Learning (Statistics)                    -0.487695         0.026147          -18.652           0.000
+L3.Methodology (Statistics)                         -0.042645         0.123958           -0.344           0.731
+L3.Other Statistics                                  1.517338         1.001739            1.515           0.130
+L3.Statistics Theory                                 0.064016         0.195232            0.328           0.743
+L4.Applications (Statistics)                        -0.537017         0.228489           -2.350           0.019
+L4.Computation (Statistics)                          0.087808         0.207340            0.423           0.672
+L4.Data Analysis, Statistics and Probability         0.060873         0.503300            0.121           0.904
+L4.Machine Learning (Statistics)                    -0.437508         0.027433          -15.948           0.000
+L4.Methodology (Statistics)                         -0.015393         0.132340           -0.116           0.907
+L4.Other Statistics                                  1.823515         1.072883            1.700           0.089
+L4.Statistics Theory                                 0.070070         0.206530            0.339           0.734
+L5.Applications (Statistics)                        -0.134566         0.234468           -0.574           0.566
+L5.Computation (Statistics)                          0.045307         0.209664            0.216           0.829
+L5.Data Analysis, Statistics and Probability         0.062474         0.517721            0.121           0.904
+L5.Machine Learning (Statistics)                    -0.360932         0.027867          -12.952           0.000
+L5.Methodology (Statistics)                         -0.008540         0.134422           -0.064           0.949
+L5.Other Statistics                                  0.674073         1.097713            0.614           0.539
+L5.Statistics Theory                                -0.162743         0.210289           -0.774           0.439
+L6.Applications (Statistics)                        -0.166457         0.228134           -0.730           0.466
+L6.Computation (Statistics)                          0.018933         0.207101            0.091           0.927
+L6.Data Analysis, Statistics and Probability         0.242937         0.502634            0.483           0.629
+L6.Machine Learning (Statistics)                    -0.238294         0.027424           -8.689           0.000
+L6.Methodology (Statistics)                         -0.037913         0.132493           -0.286           0.775
+L6.Other Statistics                                  1.183026         1.076504            1.099           0.272
+L6.Statistics Theory                                 0.173681         0.206834            0.840           0.401
+L7.Applications (Statistics)                        -0.080868         0.210587           -0.384           0.701
+L7.Computation (Statistics)                          0.176746         0.194831            0.907           0.364
+L7.Data Analysis, Statistics and Probability        -0.274792         0.467449           -0.588           0.557
+L7.Machine Learning (Statistics)                    -0.052068         0.026160           -1.990           0.047
+L7.Methodology (Statistics)                          0.111510         0.124353            0.897           0.370
+L7.Other Statistics                                  2.113561         1.006340            2.100           0.036
+L7.Statistics Theory                                 0.080938         0.194948            0.415           0.678
+L8.Applications (Statistics)                         0.161956         0.181900            0.890           0.373
+L8.Computation (Statistics)                          0.066372         0.169865            0.391           0.696
+L8.Data Analysis, Statistics and Probability         0.054151         0.406376            0.133           0.894
+L8.Machine Learning (Statistics)                    -0.037398         0.023496           -1.592           0.111
+L8.Methodology (Statistics)                          0.064796         0.108286            0.598           0.550
+L8.Other Statistics                                  1.381150         0.877927            1.573           0.116
+L8.Statistics Theory                                 0.195830         0.172777            1.133           0.257
+L9.Applications (Statistics)                         0.097637         0.134875            0.724           0.469
+L9.Computation (Statistics)                         -0.004675         0.128473           -0.036           0.971
+L9.Data Analysis, Statistics and Probability        -0.177244         0.304405           -0.582           0.560
+L9.Machine Learning (Statistics)                    -0.028784         0.019357           -1.487           0.137
+L9.Methodology (Statistics)                          0.065220         0.080826            0.807           0.420
+L9.Other Statistics                                  0.577823         0.660015            0.875           0.381
+L9.Statistics Theory                                 0.070590         0.132327            0.533           0.594
+===============================================================================================================
+
+Results for equation Methodology (Statistics)
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                                0.002331         0.008818            0.264           0.792
+L1.Applications (Statistics)                         0.013241         0.032357            0.409           0.682
+L1.Computation (Statistics)                          0.033915         0.031019            1.093           0.274
+L1.Data Analysis, Statistics and Probability        -0.014194         0.073131           -0.194           0.846
+L1.Machine Learning (Statistics)                     0.004324         0.004641            0.932           0.351
+L1.Methodology (Statistics)                         -0.904487         0.019222          -47.055           0.000
+L1.Other Statistics                                 -0.221368         0.157285           -1.407           0.159
+L1.Statistics Theory                                 0.052650         0.031917            1.650           0.099
+L2.Applications (Statistics)                         0.000440         0.043839            0.010           0.992
+L2.Computation (Statistics)                          0.016952         0.040960            0.414           0.679
+L2.Data Analysis, Statistics and Probability         0.037160         0.097872            0.380           0.704
+L2.Machine Learning (Statistics)                     0.006311         0.005628            1.121           0.262
+L2.Methodology (Statistics)                         -0.809853         0.025970          -31.185           0.000
+L2.Other Statistics                                 -0.283831         0.209875           -1.352           0.176
+L2.Statistics Theory                                 0.042320         0.041710            1.015           0.310
+L3.Applications (Statistics)                         0.000144         0.050791            0.003           0.998
+L3.Computation (Statistics)                          0.015023         0.046939            0.320           0.749
+L3.Data Analysis, Statistics and Probability         0.121779         0.112597            1.082           0.279
+L3.Machine Learning (Statistics)                     0.008860         0.006291            1.408           0.159
+L3.Methodology (Statistics)                         -0.685856         0.029823          -22.998           0.000
+L3.Other Statistics                                 -0.377623         0.241004           -1.567           0.117
+L3.Statistics Theory                                 0.042213         0.046970            0.899           0.369
+L4.Applications (Statistics)                         0.033857         0.054971            0.616           0.538
+L4.Computation (Statistics)                          0.035176         0.049883            0.705           0.481
+L4.Data Analysis, Statistics and Probability         0.115366         0.121087            0.953           0.341
+L4.Machine Learning (Statistics)                     0.002148         0.006600            0.325           0.745
+L4.Methodology (Statistics)                         -0.564749         0.031839          -17.738           0.000
+L4.Other Statistics                                 -0.555198         0.258120           -2.151           0.031
+L4.Statistics Theory                                 0.030140         0.049688            0.607           0.544
+L5.Applications (Statistics)                         0.069306         0.056410            1.229           0.219
+L5.Computation (Statistics)                          0.022611         0.050442            0.448           0.654
+L5.Data Analysis, Statistics and Probability         0.049876         0.124556            0.400           0.689
+L5.Machine Learning (Statistics)                    -0.003140         0.006704           -0.468           0.640
+L5.Methodology (Statistics)                         -0.496655         0.032340          -15.357           0.000
+L5.Other Statistics                                 -0.245306         0.264094           -0.929           0.353
+L5.Statistics Theory                                 0.026832         0.050593            0.530           0.596
+L6.Applications (Statistics)                         0.024580         0.054886            0.448           0.654
+L6.Computation (Statistics)                         -0.005749         0.049826           -0.115           0.908
+L6.Data Analysis, Statistics and Probability         0.007800         0.120927            0.065           0.949
+L6.Machine Learning (Statistics)                     0.000833         0.006598            0.126           0.900
+L6.Methodology (Statistics)                         -0.394708         0.031876          -12.383           0.000
+L6.Other Statistics                                 -0.041503         0.258992           -0.160           0.873
+L6.Statistics Theory                                -0.039218         0.049761           -0.788           0.431
+L7.Applications (Statistics)                         0.065901         0.050664            1.301           0.193
+L7.Computation (Statistics)                         -0.007200         0.046873           -0.154           0.878
+L7.Data Analysis, Statistics and Probability        -0.051627         0.112461           -0.459           0.646
+L7.Machine Learning (Statistics)                     0.004506         0.006294            0.716           0.474
+L7.Methodology (Statistics)                         -0.310413         0.029917          -10.376           0.000
+L7.Other Statistics                                 -0.035172         0.242111           -0.145           0.884
+L7.Statistics Theory                                -0.053167         0.046902           -1.134           0.257
+L8.Applications (Statistics)                        -0.025990         0.043763           -0.594           0.553
+L8.Computation (Statistics)                         -0.018278         0.040867           -0.447           0.655
+L8.Data Analysis, Statistics and Probability        -0.217283         0.097768           -2.222           0.026
+L8.Machine Learning (Statistics)                     0.005522         0.005653            0.977           0.329
+L8.Methodology (Statistics)                         -0.176690         0.026052           -6.782           0.000
+L8.Other Statistics                                  0.123900         0.211217            0.587           0.557
+L8.Statistics Theory                                -0.008213         0.041568           -0.198           0.843
+L9.Applications (Statistics)                         0.024471         0.032449            0.754           0.451
+L9.Computation (Statistics)                         -0.033453         0.030909           -1.082           0.279
+L9.Data Analysis, Statistics and Probability        -0.073268         0.073236           -1.000           0.317
+L9.Machine Learning (Statistics)                     0.001764         0.004657            0.379           0.705
+L9.Methodology (Statistics)                         -0.080232         0.019446           -4.126           0.000
+L9.Other Statistics                                 -0.203701         0.158790           -1.283           0.200
+L9.Statistics Theory                                 0.000793         0.031836            0.025           0.980
+===============================================================================================================
+
+Results for equation Other Statistics
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                               -0.000027         0.001079           -0.025           0.980
+L1.Applications (Statistics)                        -0.003944         0.003960           -0.996           0.319
+L1.Computation (Statistics)                          0.007381         0.003796            1.944           0.052
+L1.Data Analysis, Statistics and Probability        -0.000102         0.008950           -0.011           0.991
+L1.Machine Learning (Statistics)                     0.000189         0.000568            0.332           0.740
+L1.Methodology (Statistics)                          0.003224         0.002353            1.370           0.171
+L1.Other Statistics                                 -0.902428         0.019250          -46.880           0.000
+L1.Statistics Theory                                -0.000336         0.003906           -0.086           0.932
+L2.Applications (Statistics)                        -0.008205         0.005365           -1.529           0.126
+L2.Computation (Statistics)                          0.004806         0.005013            0.959           0.338
+L2.Data Analysis, Statistics and Probability         0.000632         0.011978            0.053           0.958
+L2.Machine Learning (Statistics)                    -0.000102         0.000689           -0.148           0.882
+L2.Methodology (Statistics)                          0.000323         0.003178            0.102           0.919
+L2.Other Statistics                                 -0.804790         0.025686          -31.332           0.000
+L2.Statistics Theory                                -0.001565         0.005105           -0.307           0.759
+L3.Applications (Statistics)                        -0.012258         0.006216           -1.972           0.049
+L3.Computation (Statistics)                          0.001483         0.005745            0.258           0.796
+L3.Data Analysis, Statistics and Probability         0.001162         0.013781            0.084           0.933
+L3.Machine Learning (Statistics)                     0.000214         0.000770            0.278           0.781
+L3.Methodology (Statistics)                          0.000149         0.003650            0.041           0.967
+L3.Other Statistics                                 -0.701392         0.029496          -23.779           0.000
+L3.Statistics Theory                                -0.001607         0.005749           -0.280           0.780
+L4.Applications (Statistics)                        -0.011620         0.006728           -1.727           0.084
+L4.Computation (Statistics)                         -0.001614         0.006105           -0.264           0.792
+L4.Data Analysis, Statistics and Probability        -0.000232         0.014820           -0.016           0.988
+L4.Machine Learning (Statistics)                     0.000060         0.000808            0.075           0.940
+L4.Methodology (Statistics)                         -0.000487         0.003897           -0.125           0.900
+L4.Other Statistics                                 -0.599444         0.031591          -18.975           0.000
+L4.Statistics Theory                                -0.006634         0.006081           -1.091           0.275
+L5.Applications (Statistics)                        -0.016055         0.006904           -2.326           0.020
+L5.Computation (Statistics)                          0.000348         0.006174            0.056           0.955
+L5.Data Analysis, Statistics and Probability        -0.003027         0.015244           -0.199           0.843
+L5.Machine Learning (Statistics)                     0.000676         0.000821            0.824           0.410
+L5.Methodology (Statistics)                         -0.000821         0.003958           -0.207           0.836
+L5.Other Statistics                                 -0.492341         0.032322          -15.232           0.000
+L5.Statistics Theory                                -0.011255         0.006192           -1.818           0.069
+L6.Applications (Statistics)                        -0.018890         0.006717           -2.812           0.005
+L6.Computation (Statistics)                         -0.002204         0.006098           -0.361           0.718
+L6.Data Analysis, Statistics and Probability        -0.004899         0.014800           -0.331           0.741
+L6.Machine Learning (Statistics)                     0.000436         0.000807            0.540           0.589
+L6.Methodology (Statistics)                         -0.000523         0.003901           -0.134           0.893
+L6.Other Statistics                                 -0.393467         0.031697          -12.413           0.000
+L6.Statistics Theory                                -0.016555         0.006090           -2.718           0.007
+L7.Applications (Statistics)                        -0.020034         0.006201           -3.231           0.001
+L7.Computation (Statistics)                          0.000914         0.005737            0.159           0.873
+L7.Data Analysis, Statistics and Probability        -0.004142         0.013764           -0.301           0.763
+L7.Machine Learning (Statistics)                     0.000692         0.000770            0.898           0.369
+L7.Methodology (Statistics)                          0.001694         0.003662            0.463           0.644
+L7.Other Statistics                                 -0.286241         0.029631           -9.660           0.000
+L7.Statistics Theory                                -0.016080         0.005740           -2.801           0.005
+L8.Applications (Statistics)                        -0.012133         0.005356           -2.265           0.023
+L8.Computation (Statistics)                         -0.001848         0.005002           -0.370           0.712
+L8.Data Analysis, Statistics and Probability        -0.002976         0.011966           -0.249           0.804
+L8.Machine Learning (Statistics)                     0.000258         0.000692            0.373           0.709
+L8.Methodology (Statistics)                          0.000146         0.003188            0.046           0.964
+L8.Other Statistics                                 -0.188450         0.025850           -7.290           0.000
+L8.Statistics Theory                                -0.013682         0.005087           -2.689           0.007
+L9.Applications (Statistics)                        -0.002169         0.003971           -0.546           0.585
+L9.Computation (Statistics)                         -0.004130         0.003783           -1.092           0.275
+L9.Data Analysis, Statistics and Probability        -0.001425         0.008963           -0.159           0.874
+L9.Machine Learning (Statistics)                     0.000550         0.000570            0.966           0.334
+L9.Methodology (Statistics)                         -0.000907         0.002380           -0.381           0.703
+L9.Other Statistics                                 -0.093590         0.019434           -4.816           0.000
+L9.Statistics Theory                                -0.006626         0.003896           -1.700           0.089
+===============================================================================================================
+
+Results for equation Statistics Theory
+===============================================================================================================
+                                                  coefficient       std. error           t-stat            prob
+---------------------------------------------------------------------------------------------------------------
+const                                               -0.000098         0.005329           -0.018           0.985
+L1.Applications (Statistics)                         0.016843         0.019554            0.861           0.389
+L1.Computation (Statistics)                          0.028526         0.018746            1.522           0.128
+L1.Data Analysis, Statistics and Probability        -0.041902         0.044195           -0.948           0.343
+L1.Machine Learning (Statistics)                    -0.002770         0.002804           -0.988           0.323
+L1.Methodology (Statistics)                         -0.000996         0.011617           -0.086           0.932
+L1.Other Statistics                                  0.145444         0.095052            1.530           0.126
+L1.Statistics Theory                                -0.865739         0.019289          -44.884           0.000
+L2.Applications (Statistics)                         0.027397         0.026493            1.034           0.301
+L2.Computation (Statistics)                          0.006324         0.024754            0.255           0.798
+L2.Data Analysis, Statistics and Probability        -0.054913         0.059147           -0.928           0.353
+L2.Machine Learning (Statistics)                    -0.002910         0.003401           -0.855           0.392
+L2.Methodology (Statistics)                         -0.021082         0.015694           -1.343           0.179
+L2.Other Statistics                                  0.116921         0.126834            0.922           0.357
+L2.Statistics Theory                                -0.729110         0.025206          -28.926           0.000
+L3.Applications (Statistics)                         0.020516         0.030694            0.668           0.504
+L3.Computation (Statistics)                          0.007676         0.028367            0.271           0.787
+L3.Data Analysis, Statistics and Probability        -0.044770         0.068046           -0.658           0.511
+L3.Machine Learning (Statistics)                     0.003556         0.003802            0.936           0.350
+L3.Methodology (Statistics)                          0.008764         0.018023            0.486           0.627
+L3.Other Statistics                                  0.521450         0.145646            3.580           0.000
+L3.Statistics Theory                                -0.644674         0.028385          -22.711           0.000
+L4.Applications (Statistics)                         0.004041         0.033221            0.122           0.903
+L4.Computation (Statistics)                         -0.026053         0.030146           -0.864           0.387
+L4.Data Analysis, Statistics and Probability        -0.037432         0.073177           -0.512           0.609
+L4.Machine Learning (Statistics)                    -0.000322         0.003989           -0.081           0.936
+L4.Methodology (Statistics)                          0.010843         0.019241            0.564           0.573
+L4.Other Statistics                                  0.480012         0.155990            3.077           0.002
+L4.Statistics Theory                                -0.528659         0.030028          -17.605           0.000
+L5.Applications (Statistics)                        -0.005690         0.034090           -0.167           0.867
+L5.Computation (Statistics)                         -0.060367         0.030484           -1.980           0.048
+L5.Data Analysis, Statistics and Probability        -0.106971         0.075273           -1.421           0.155
+L5.Machine Learning (Statistics)                     0.002500         0.004052            0.617           0.537
+L5.Methodology (Statistics)                          0.032593         0.019544            1.668           0.095
+L5.Other Statistics                                  0.462122         0.159600            2.895           0.004
+L5.Statistics Theory                                -0.431996         0.030575          -14.129           0.000
+L6.Applications (Statistics)                         0.020639         0.033169            0.622           0.534
+L6.Computation (Statistics)                         -0.060235         0.030111           -2.000           0.045
+L6.Data Analysis, Statistics and Probability        -0.081151         0.073080           -1.110           0.267
+L6.Machine Learning (Statistics)                     0.004501         0.003987            1.129           0.259
+L6.Methodology (Statistics)                          0.011297         0.019264            0.586           0.558
+L6.Other Statistics                                  0.441139         0.156517            2.818           0.005
+L6.Statistics Theory                                -0.368797         0.030072          -12.264           0.000
+L7.Applications (Statistics)                         0.031205         0.030618            1.019           0.308
+L7.Computation (Statistics)                         -0.036362         0.028327           -1.284           0.199
+L7.Data Analysis, Statistics and Probability        -0.026196         0.067964           -0.385           0.700
+L7.Machine Learning (Statistics)                     0.004460         0.003804            1.173           0.241
+L7.Methodology (Statistics)                          0.013621         0.018080            0.753           0.451
+L7.Other Statistics                                  0.387685         0.146315            2.650           0.008
+L7.Statistics Theory                                -0.261570         0.028344           -9.228           0.000
+L8.Applications (Statistics)                         0.041709         0.026447            1.577           0.115
+L8.Computation (Statistics)                         -0.023865         0.024697           -0.966           0.334
+L8.Data Analysis, Statistics and Probability        -0.000126         0.059084           -0.002           0.998
+L8.Machine Learning (Statistics)                     0.001928         0.003416            0.564           0.573
+L8.Methodology (Statistics)                          0.020115         0.015744            1.278           0.201
+L8.Other Statistics                                  0.331327         0.127645            2.596           0.009
+L8.Statistics Theory                                -0.210263         0.025121           -8.370           0.000
+L9.Applications (Statistics)                         0.020451         0.019610            1.043           0.297
+L9.Computation (Statistics)                         -0.011255         0.018679           -0.603           0.547
+L9.Data Analysis, Statistics and Probability        -0.048415         0.044259           -1.094           0.274
+L9.Machine Learning (Statistics)                    -0.002604         0.002814           -0.925           0.355
+L9.Methodology (Statistics)                          0.012554         0.011752            1.068           0.285
+L9.Other Statistics                                  0.175374         0.095962            1.828           0.068
+L9.Statistics Theory                                -0.078152         0.019240           -4.062           0.000
+===============================================================================================================
+
+Correlation matrix of residuals
+                                             Applications (Statistics)  Computation (Statistics)  Data Analysis, Statistics and Probability  Machine Learning (Statistics)  Methodology (Statistics)  Other Statistics  Statistics Theory
+Applications (Statistics)                                     1.000000                  0.020139                                   0.007455                       0.024707                  0.003862          0.060097           0.003251
+Computation (Statistics)                                      0.020139                  1.000000                                   0.018705                       0.019189                  0.038635         -0.013646           0.032484
+Data Analysis, Statistics and Probability                     0.007455                  0.018705                                   1.000000                      -0.027275                 -0.003884         -0.000246          -0.006219
+Machine Learning (Statistics)                                 0.024707                  0.019189                                  -0.027275                       1.000000                  0.024697         -0.020575           0.044640
+Methodology (Statistics)                                      0.003862                  0.038635                                  -0.003884                       0.024697                  1.000000         -0.007507          -0.011485
+Other Statistics                                              0.060097                 -0.013646                                  -0.000246                      -0.020575                 -0.007507          1.000000           0.077064
+Statistics Theory                                             0.003251                  0.032484                                  -0.006219                       0.044640                 -0.011485          0.077064           1.000000
+</code></pre>
+</div>
+</div>
+<div id="cell-73" class="cell" data-execution_count="194">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>fitted.plot_acorr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="194">
+<div>
+<figure class="figure">
+<p><img src="stat_files/figure-html/cell-52-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="stat_files/figure-html/cell-52-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-74" class="cell" data-execution_count="195">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>fitted.plot_forecast(steps <span class="op">=</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="195">
+<div>
+<figure class="figure">
+<p><img src="stat_files/figure-html/cell-53-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="stat_files/figure-html/cell-53-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="trying-to-use-sklearn" class="level3">
+<h3 class="anchored" data-anchor-id="trying-to-use-sklearn">Trying to use SKLEARN</h3>
+<div id="cell-76" class="cell" data-execution_count="196">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightgbm <span class="im">import</span> LGBMRegressor</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skforecast.ForecasterAutoregMultiSeries <span class="im">import</span> ForecasterAutoregMultiSeries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-77" class="cell" data-execution_count="197">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> corr_df.iloc[:, <span class="dv">0</span>:<span class="dv">7</span>].fillna(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-78" class="cell" data-execution_count="198">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>forecaster <span class="op">=</span> ForecasterAutoregMultiSeries(</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>                 regressor          <span class="op">=</span> LGBMRegressor(random_state<span class="op">=</span><span class="dv">0</span>, verbose<span class="op">=-</span><span class="dv">1</span>),</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>                 lags               <span class="op">=</span> <span class="dv">9</span>,</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>                 encoding           <span class="op">=</span> <span class="st">'ordinal'</span>,</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>                 transformer_series <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>                 transformer_exog   <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>                 weight_func        <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>                 series_weights     <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>                 differentiation    <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>                 dropna_from_series <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>                 fit_kwargs         <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>                 forecaster_id      <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a>forecaster.fit(series<span class="op">=</span>train)</span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>forecaster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/narenprax/Documents/VSCode Projects/stats140finalproj/.pixi/envs/default/lib/python3.13/site-packages/skforecast/utils/utils.py:1135: UserWarning:
+
+Series has no DatetimeIndex nor RangeIndex index. Index is overwritten with a RangeIndex.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="198">
+<pre><code>============================ 
+ForecasterAutoregMultiSeries 
+============================ 
+Regressor: LGBMRegressor(random_state=0, verbose=-1) 
+Lags: [1 2 3 4 5 6 7 8 9] 
+Transformer for series: None 
+Transformer for exog: None 
+Series encoding: ordinal 
+Window size: 9 
+Series levels (names): Applications (Statistics), Computation (Statistics), Data Analysis, Statistics and Probability, Machine Learning (Statistics), Methodology (Statistics), ... 
+Series weights: None 
+Weight function included: False 
+Differentiation order: None 
+Exogenous included: False 
+Type of exogenous variable: None 
+Exogenous variables names: None 
+Training range: 'Applications (Statistics)': ['0', '2768'], 'Computation (Statistics)': ['0', '2768'], 'Data Analysis, Statistics and Probability': ['0', '2768'], ... 
+Training index type: RangeIndex 
+Training index frequency: 1 
+Regressor parameters: boosting_type: gbdt, class_weight: None, colsample_bytree: 1.0, importance_type: split, learning_rate: 0.1, ... 
+fit_kwargs: {} 
+Creation date: 2025-03-20 00:29:11 
+Last fit date: 2025-03-20 00:29:11 
+Skforecast version: 0.13.0 
+Python version: 3.13.2 
+Forecaster id: None </code></pre>
+</div>
+</div>
+<div id="cell-79" class="cell" data-execution_count="199">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>test_preds <span class="op">=</span> forecaster.predict(</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>    levels            <span class="op">=</span> <span class="bu">list</span>(sub.columns), </span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    steps             <span class="op">=</span> <span class="bu">len</span>(test), </span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    last_window       <span class="op">=</span> test,</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>    suppress_warnings <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/narenprax/Documents/VSCode Projects/stats140finalproj/.pixi/envs/default/lib/python3.13/site-packages/skforecast/utils/utils.py:1197: UserWarning:
+
+`last_window` has no DatetimeIndex nor RangeIndex index. Index is overwritten with a RangeIndex.
+</code></pre>
+</div>
+</div>
+<div id="cell-80" class="cell" data-execution_count="200">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>mean_absolute_error(test_preds, test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="200">
+<pre><code>0.5912683948059073</code></pre>
+</div>
+</div>
+<p>Some decent accuracy</p>
+</section>
+<section id="legit-prediction-with-sklearn---using-all-of-our-available-data-to-predict-the-next-6-months" class="level3">
+<h3 class="anchored" data-anchor-id="legit-prediction-with-sklearn---using-all-of-our-available-data-to-predict-the-next-6-months">Legit prediction with sklearn - using all of our available data to predict the next 6 months</h3>
+<p>Making the dataframe for our predictions using the original data</p>
+<div id="cell-84" class="cell" data-execution_count="201">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>sk_with_date <span class="op">=</span> copy.query(<span class="st">'category.isin(@stats_topics)'</span>).groupby([<span class="st">'published_date'</span>, <span class="st">'category'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>).query(<span class="st">"count &gt; 0"</span>)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>cn <span class="op">=</span> pd.Series(pd.unique(sk_with_date.category)).sort_values()</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>sk_df <span class="op">=</span> sk_with_date.pivot_table(index<span class="op">=</span><span class="st">'published_date'</span>, columns<span class="op">=</span><span class="st">'category'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>sk_df.columns <span class="op">=</span> cn</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>display(sk_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Applications (Statistics)</th>
+<th data-quarto-table-cell-role="th">Computation (Statistics)</th>
+<th data-quarto-table-cell-role="th">Data Analysis, Statistics and Probability</th>
+<th data-quarto-table-cell-role="th">Machine Learning (Statistics)</th>
+<th data-quarto-table-cell-role="th">Methodology (Statistics)</th>
+<th data-quarto-table-cell-role="th">Other Statistics</th>
+<th data-quarto-table-cell-role="th">Statistics Theory</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">published_date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2005-09-29</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-01-07</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-04-09</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-04-13</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-05-02</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01-26</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2025-01-27</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01-28</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>5.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2025-01-29</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01-30</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>3984 rows × 7 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-85" class="cell" data-execution_count="202">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>sk_df[<span class="st">'month'</span>] <span class="op">=</span> sk_df.index.month</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>sk_df[<span class="st">'year'</span>] <span class="op">=</span> sk_df.index.year</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>date_ind <span class="op">=</span> sk_df[[<span class="st">'month'</span>, <span class="st">'year'</span>]].astype(<span class="bu">int</span>).astype(<span class="bu">str</span>)</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>month_yr <span class="op">=</span> date_ind[<span class="st">'month'</span>] <span class="op">+</span> <span class="st">"/"</span> <span class="op">+</span> date_ind[<span class="st">'year'</span>]</span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>month_yr <span class="op">=</span> dates_from_str(month_yr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-86" class="cell" data-execution_count="203">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>forecast_data <span class="op">=</span> sk_df.iloc[:, <span class="dv">0</span>:<span class="dv">7</span>]</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>forecast_data.index <span class="op">=</span> pd.DatetimeIndex(month_yr).to_period(<span class="st">'M'</span>)</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>forecast_data <span class="op">=</span> forecast_data.diff().dropna()</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Note here that this is based on differences (values not are direct counts)</span></span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>display(forecast_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Applications (Statistics)</th>
+<th data-quarto-table-cell-role="th">Computation (Statistics)</th>
+<th data-quarto-table-cell-role="th">Data Analysis, Statistics and Probability</th>
+<th data-quarto-table-cell-role="th">Machine Learning (Statistics)</th>
+<th data-quarto-table-cell-role="th">Methodology (Statistics)</th>
+<th data-quarto-table-cell-role="th">Other Statistics</th>
+<th data-quarto-table-cell-role="th">Statistics Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-04</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-04</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2007-05</td>
+<td>-1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2007-05</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2025-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2025-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2025-01</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>3983 rows × 7 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-87" class="cell" data-execution_count="204">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>np.floor(forecast_data.shape[<span class="dv">0</span>] <span class="op">*</span> <span class="fl">0.3</span>)</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>f_train <span class="op">=</span> sub[:<span class="op">-</span><span class="dv">1194</span>]</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>f_test <span class="op">=</span> sub[<span class="op">-</span><span class="dv">1194</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-88" class="cell" data-execution_count="205">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> VAR(train)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>lag <span class="op">=</span> model.select_order(<span class="dv">30</span>)</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>lag.selected_orders</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Using this to gauge the number of lags we use later, selecting 9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="205">
+<pre><code>{'aic': np.int64(16),
+ 'bic': np.int64(6),
+ 'hqic': np.int64(9),
+ 'fpe': np.int64(16)}</code></pre>
+</div>
+</div>
+<div id="cell-89" class="cell" data-execution_count="206">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>forecaster <span class="op">=</span> ForecasterAutoregMultiSeries(</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>                 regressor          <span class="op">=</span> LGBMRegressor(random_state<span class="op">=</span><span class="dv">0</span>, verbose<span class="op">=-</span><span class="dv">1</span>),</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>                 lags               <span class="op">=</span> <span class="dv">9</span>,</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>                 encoding           <span class="op">=</span> <span class="st">'ordinal'</span>,</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>                 transformer_series <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>                 transformer_exog   <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>                 weight_func        <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a>                 series_weights     <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-9"><a href="#cb104-9" aria-hidden="true" tabindex="-1"></a>                 differentiation    <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a>                 dropna_from_series <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a>                 fit_kwargs         <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb104-12"><a href="#cb104-12" aria-hidden="true" tabindex="-1"></a>                 forecaster_id      <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb104-13"><a href="#cb104-13" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb104-14"><a href="#cb104-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-15"><a href="#cb104-15" aria-hidden="true" tabindex="-1"></a>forecaster.fit(series<span class="op">=</span>f_train)</span>
+<span id="cb104-16"><a href="#cb104-16" aria-hidden="true" tabindex="-1"></a>forecaster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/narenprax/Documents/VSCode Projects/stats140finalproj/.pixi/envs/default/lib/python3.13/site-packages/skforecast/utils/utils.py:1135: UserWarning:
+
+Series has no DatetimeIndex nor RangeIndex index. Index is overwritten with a RangeIndex.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="206">
+<pre><code>============================ 
+ForecasterAutoregMultiSeries 
+============================ 
+Regressor: LGBMRegressor(random_state=0, verbose=-1) 
+Lags: [1 2 3 4 5 6 7 8 9] 
+Transformer for series: None 
+Transformer for exog: None 
+Series encoding: ordinal 
+Window size: 9 
+Series levels (names): Applications (Statistics), Computation (Statistics), Data Analysis, Statistics and Probability, Machine Learning (Statistics), Methodology (Statistics), ... 
+Series weights: None 
+Weight function included: False 
+Differentiation order: None 
+Exogenous included: False 
+Type of exogenous variable: None 
+Exogenous variables names: None 
+Training range: 'Applications (Statistics)': ['0', '2760'], 'Computation (Statistics)': ['0', '2760'], 'Data Analysis, Statistics and Probability': ['0', '2760'], ... 
+Training index type: RangeIndex 
+Training index frequency: 1 
+Regressor parameters: boosting_type: gbdt, class_weight: None, colsample_bytree: 1.0, importance_type: split, learning_rate: 0.1, ... 
+fit_kwargs: {} 
+Creation date: 2025-03-20 00:29:17 
+Last fit date: 2025-03-20 00:29:17 
+Skforecast version: 0.13.0 
+Python version: 3.13.2 
+Forecaster id: None </code></pre>
+</div>
+</div>
+<div id="cell-90" class="cell" data-execution_count="207">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>test_preds <span class="op">=</span> forecaster.predict(</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>    levels            <span class="op">=</span> <span class="bu">list</span>(forecast_data.columns), </span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>    steps             <span class="op">=</span> <span class="bu">len</span>(f_test), </span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>    suppress_warnings <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-91" class="cell" data-execution_count="208">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>mean_absolute_error(test_preds, f_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="208">
+<pre><code>0.5296079965089321</code></pre>
+</div>
+</div>
+<p>Now our actual final predictions for the next 6 months</p>
+<div id="cell-93" class="cell" data-execution_count="209">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>future_forecast <span class="op">=</span> ForecasterAutoregMultiSeries(</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>                 regressor          <span class="op">=</span> LGBMRegressor(random_state<span class="op">=</span><span class="dv">0</span>, verbose<span class="op">=-</span><span class="dv">1</span>),</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>                 lags               <span class="op">=</span> <span class="dv">9</span>,</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>                 encoding           <span class="op">=</span> <span class="st">'ordinal'</span>,</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>                 transformer_series <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>                 transformer_exog   <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>                 weight_func        <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>                 series_weights     <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>                 differentiation    <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>                 dropna_from_series <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>                 fit_kwargs         <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>                 forecaster_id      <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb110-13"><a href="#cb110-13" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb110-14"><a href="#cb110-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-15"><a href="#cb110-15" aria-hidden="true" tabindex="-1"></a>future_forecast.fit(series<span class="op">=</span>forecast_data)</span>
+<span id="cb110-16"><a href="#cb110-16" aria-hidden="true" tabindex="-1"></a>future_forecast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/narenprax/Documents/VSCode Projects/stats140finalproj/.pixi/envs/default/lib/python3.13/site-packages/skforecast/utils/utils.py:1135: UserWarning:
+
+Series has no DatetimeIndex nor RangeIndex index. Index is overwritten with a RangeIndex.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="209">
+<pre><code>============================ 
+ForecasterAutoregMultiSeries 
+============================ 
+Regressor: LGBMRegressor(random_state=0, verbose=-1) 
+Lags: [1 2 3 4 5 6 7 8 9] 
+Transformer for series: None 
+Transformer for exog: None 
+Series encoding: ordinal 
+Window size: 9 
+Series levels (names): Applications (Statistics), Computation (Statistics), Data Analysis, Statistics and Probability, Machine Learning (Statistics), Methodology (Statistics), ... 
+Series weights: None 
+Weight function included: False 
+Differentiation order: None 
+Exogenous included: False 
+Type of exogenous variable: None 
+Exogenous variables names: None 
+Training range: 'Applications (Statistics)': ['0', '3982'], 'Computation (Statistics)': ['0', '3982'], 'Data Analysis, Statistics and Probability': ['0', '3982'], ... 
+Training index type: RangeIndex 
+Training index frequency: 1 
+Regressor parameters: boosting_type: gbdt, class_weight: None, colsample_bytree: 1.0, importance_type: split, learning_rate: 0.1, ... 
+fit_kwargs: {} 
+Creation date: 2025-03-20 00:29:21 
+Last fit date: 2025-03-20 00:29:21 
+Skforecast version: 0.13.0 
+Python version: 3.13.2 
+Forecaster id: None </code></pre>
+</div>
+</div>
+<div id="cell-94" class="cell" data-execution_count="210">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>future_preds <span class="op">=</span> future_forecast.predict(</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>    levels            <span class="op">=</span> <span class="bu">list</span>(sub.columns), </span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>    steps             <span class="op">=</span> <span class="dv">6</span>, </span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>    suppress_warnings <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-95" class="cell" data-execution_count="211">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>future_preds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="211">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Applications (Statistics)</th>
+<th data-quarto-table-cell-role="th">Computation (Statistics)</th>
+<th data-quarto-table-cell-role="th">Data Analysis, Statistics and Probability</th>
+<th data-quarto-table-cell-role="th">Machine Learning (Statistics)</th>
+<th data-quarto-table-cell-role="th">Methodology (Statistics)</th>
+<th data-quarto-table-cell-role="th">Other Statistics</th>
+<th data-quarto-table-cell-role="th">Statistics Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3983</td>
+<td>0.031335</td>
+<td>0.031335</td>
+<td>0.031335</td>
+<td>0.271040</td>
+<td>0.087799</td>
+<td>0.022801</td>
+<td>0.022801</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3984</td>
+<td>-0.915359</td>
+<td>-0.915359</td>
+<td>-0.915359</td>
+<td>-1.395190</td>
+<td>-0.863089</td>
+<td>-0.883986</td>
+<td>-0.883986</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3985</td>
+<td>0.076702</td>
+<td>0.076702</td>
+<td>0.076702</td>
+<td>-0.021287</td>
+<td>0.191196</td>
+<td>0.125973</td>
+<td>0.125973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3986</td>
+<td>-0.627428</td>
+<td>-0.627428</td>
+<td>-0.627428</td>
+<td>0.981459</td>
+<td>-0.852280</td>
+<td>-0.878530</td>
+<td>-0.878530</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3987</td>
+<td>0.151290</td>
+<td>0.151290</td>
+<td>0.151290</td>
+<td>0.905772</td>
+<td>0.263317</td>
+<td>0.200561</td>
+<td>0.200561</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3988</td>
+<td>-0.539372</td>
+<td>-0.539372</td>
+<td>-0.539372</td>
+<td>-0.652616</td>
+<td>-0.831246</td>
+<td>-0.842067</td>
+<td>-0.842067</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-96" class="cell" data-execution_count="212">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>preds_long <span class="op">=</span> future_preds.reset_index().melt(id_vars<span class="op">=</span>[<span class="st">'index'</span>], var_name<span class="op">=</span><span class="st">'Category'</span>, value_name<span class="op">=</span><span class="st">'Predicted Difference'</span>)</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>preds_long.rename(columns<span class="op">=</span>{<span class="st">'index'</span>: <span class="st">'Time'</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>preds_long.Time <span class="op">-=</span> <span class="dv">3982</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>display(preds_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Time</th>
+<th data-quarto-table-cell-role="th">Category</th>
+<th data-quarto-table-cell-role="th">Predicted Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Applications (Statistics)</td>
+<td>0.031335</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Applications (Statistics)</td>
+<td>-0.915359</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Applications (Statistics)</td>
+<td>0.076702</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Applications (Statistics)</td>
+<td>-0.627428</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Applications (Statistics)</td>
+<td>0.151290</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>Applications (Statistics)</td>
+<td>-0.539372</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>1</td>
+<td>Computation (Statistics)</td>
+<td>0.031335</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>2</td>
+<td>Computation (Statistics)</td>
+<td>-0.915359</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>3</td>
+<td>Computation (Statistics)</td>
+<td>0.076702</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>4</td>
+<td>Computation (Statistics)</td>
+<td>-0.627428</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>5</td>
+<td>Computation (Statistics)</td>
+<td>0.151290</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>6</td>
+<td>Computation (Statistics)</td>
+<td>-0.539372</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>1</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>0.031335</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>2</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>-0.915359</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>3</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>0.076702</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>4</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>-0.627428</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>5</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>0.151290</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>6</td>
+<td>Data Analysis, Statistics and Probability</td>
+<td>-0.539372</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>1</td>
+<td>Machine Learning (Statistics)</td>
+<td>0.271040</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>2</td>
+<td>Machine Learning (Statistics)</td>
+<td>-1.395190</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>3</td>
+<td>Machine Learning (Statistics)</td>
+<td>-0.021287</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>4</td>
+<td>Machine Learning (Statistics)</td>
+<td>0.981459</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>5</td>
+<td>Machine Learning (Statistics)</td>
+<td>0.905772</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>6</td>
+<td>Machine Learning (Statistics)</td>
+<td>-0.652616</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>1</td>
+<td>Methodology (Statistics)</td>
+<td>0.087799</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>2</td>
+<td>Methodology (Statistics)</td>
+<td>-0.863089</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>3</td>
+<td>Methodology (Statistics)</td>
+<td>0.191196</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>4</td>
+<td>Methodology (Statistics)</td>
+<td>-0.852280</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>5</td>
+<td>Methodology (Statistics)</td>
+<td>0.263317</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>6</td>
+<td>Methodology (Statistics)</td>
+<td>-0.831246</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>1</td>
+<td>Other Statistics</td>
+<td>0.022801</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>2</td>
+<td>Other Statistics</td>
+<td>-0.883986</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>3</td>
+<td>Other Statistics</td>
+<td>0.125973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>4</td>
+<td>Other Statistics</td>
+<td>-0.878530</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>5</td>
+<td>Other Statistics</td>
+<td>0.200561</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>6</td>
+<td>Other Statistics</td>
+<td>-0.842067</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>1</td>
+<td>Statistics Theory</td>
+<td>0.022801</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>2</td>
+<td>Statistics Theory</td>
+<td>-0.883986</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>3</td>
+<td>Statistics Theory</td>
+<td>0.125973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>4</td>
+<td>Statistics Theory</td>
+<td>-0.878530</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>5</td>
+<td>Statistics Theory</td>
+<td>0.200561</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">41</td>
+<td>6</td>
+<td>Statistics Theory</td>
+<td>-0.842067</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-97" class="cell" data-execution_count="213">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>avg_pred <span class="op">=</span> preds_long.groupby([<span class="st">'Category'</span>])[<span class="st">'Predicted Difference'</span>].mean().reset_index()</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>px.bar(avg_pred, x <span class="op">=</span> <span class="st">'Category'</span>, y <span class="op">=</span> <span class="st">'Predicted Difference'</span>, color <span class="op">=</span> <span class="st">'Category'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div id="cell-98" class="cell" data-execution_count="214">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>topics <span class="op">=</span> pd.unique(preds_long[<span class="st">'Category'</span>])</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> topics:</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.line(preds_long.query(<span class="st">"Category == @x"</span>), x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"Predicted Difference"</span>, color_discrete_sequence<span class="op">=</span>[color_dict[x]], title<span class="op">=</span><span class="st">"Predicted differences in paper output in the next 6 months : "</span> <span class="op">+</span> x)</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

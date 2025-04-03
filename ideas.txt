@@ -1,0 +1,22 @@
+Ideas for improvement
+
+1. Look at more papers in the target research journal to understand the forecasting portion more thoroughly
+2. Use a larger arXiv dataset (auto-scraped data is freely available on GitHub)
+3. Implementing NLP techniques for actual paper content as provided in the dataset
+4. Do I need to change the data/framework for forecasting? In other words, should I gather more predictors for the publication output or go for more of an investigative approach.
+Two possible ways: Feature engineering with context and using NLP to construct additional predictors from text (shifting from the established categories to created ones, conceptual)
+5. Integrating LLMs for the context / feature engineering portions, perhaps historical references
+
+Major focuses of improvement: Forecasting techniques, feature engineering, project focus, data
+
+
+Lew feedback:
+- Propose multiple papers
+- Graphics fine
+- Ch1 Test sample/ proof of concept for NLP category labels than inherent labels, data collection dissertation
+- Ch2 Methodology paper on how to manage the data and own labels
+- Ch3 Documenting arXiv as a valuable data resource (exploration and discussion of the whole thing)
+- Break it into segments
+- Historical context ideas: Timeline of inventions, funding totals, market stock prices of companies with involved technologies, patents, industries, tracking money might be easiest
+- 40-60 advisor grad
+- MODULAR piece by piece
